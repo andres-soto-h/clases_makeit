@@ -27,7 +27,7 @@ estat=gets.chomp.to_f
 
 bmi=(peso/(estat**2))
 
-p "Tu indice de masa corporal es de: #{bmi}"
+p "Tu indice de masa corporal es de: #{bmi.round(2)}"
 
 if bmi<18.5
 
