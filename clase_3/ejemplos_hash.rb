@@ -18,8 +18,15 @@ end
 
 persona_nueva={:nombre =>"Andrés",:apellido=>"Soto",:edad=>26}
 
-p persona_nueva
+#p persona_nueva
 
 persona_nueva={nombre: "Andrés",apellido:"Soto",edad:26}
 
-p persona_nueva
+#p persona_nueva
+
+
+p persona2.length
+p persona2.has_key?("edad")
+p persona2.keys
+
+
