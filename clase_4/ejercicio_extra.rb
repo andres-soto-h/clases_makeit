@@ -1,38 +1,28 @@
+#App para leer datos de un directorio de telefonos e imprimir información.
 
-array_mayor=[]
+@directory={}
 
-file_as_array=IO.readlines('datos_ej.txt')
+def import_directory(path,file_name)
 
-file_as_array.each do |num|
-    
-    if num.to_i > 10
-        array_mayor.push(num.chomp)
-    end
-    
-end
+    n_contacts=0
 
-p array_mayor
+    file_as_array=IO.readlines(file_name)
 
-
-
-datos=""
-
-@directorio={}
-
-def insertar_contacto (dato)
-
-        dato_split=dato.split(" ")
-        @directorio[dato_split[0]]=dato_split[1]
-
-end
-
-until datos=="q"
-
-        p "Ingrese un usuario y un teléfono separado por espacios: "
-        datos=gets.chomp()
-        break if datos.to_s=="q"
-        insertar_contacto(datos)
+    file_as_array.each do |contact|
         
+        dato_split=contact.split(";")
+        @directory[dato_split[0]]=dato_split[1]
+        n_contacts+=1
+
+    end
+
+    p "Se importaron #{n_contacts} de namera exitosa."
+
 end
 
-p @directorio
+def list_contacts(directory_name)
+    directory_name.each_with_index do |(key,value),index|
+        p "#{index} Usuario:#{key} Teléfono: #{value}"
+    end
+end
+
