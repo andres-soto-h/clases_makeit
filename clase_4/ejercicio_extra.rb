@@ -76,8 +76,6 @@ until option.to_s=="q"
                 list_user_phone(user,@directory)
             when 3
                 list_contacts(@directory)
-            when "q"
-                p "Hasta pronto..."
             else
                 puts "La opción seleccionada no es válida, intente nuevamente.\n"
         end
