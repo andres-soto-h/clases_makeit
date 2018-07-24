@@ -30,6 +30,7 @@ class Bus
     def leave_passengers(n)
         if (@passengers-n)>0
             @passengers-=n
+            @seating+=n
         else
             p "El bus está vacio, solo pueden bajar #{@passengers} pasajeros"
             @passengers=0
@@ -70,4 +71,6 @@ p "Asientos: #{b1.seating}"
 
 p "Pasajeros: #{b1.passengers}" 
 
-b1.add_passengers(2)
+p "Se van dos pasajeros #{b1.leave_passengers(2)}"
+
+b1.add_passengers(3)
