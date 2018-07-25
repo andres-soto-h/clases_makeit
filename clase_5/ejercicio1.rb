@@ -6,6 +6,11 @@ class Bus
         @seating=seating
         @speed=0
         @passengers=0
+        @@passengers_tot=0
+    end
+
+    def self.all_passengers
+        p "En todos los buses tenemos #{@@passengers_tot} pasajeros"
     end
 
     def acelerate(acel)
@@ -19,10 +24,12 @@ class Bus
     def add_passengers(n)
         if (@passengers+n)<@seating
             @passengers+=n
+            @@passengers_tot+=n
             @seating-=n
         else
             p "El bus está lleno, solo pueden subir #{@seating} pasajeros"
             @passengers+=@seating
+            @@passengers_tot+=@seating
             @seating=0
         end
     end
@@ -30,47 +37,32 @@ class Bus
     def leave_passengers(n)
         if (@passengers-n)>0
             @passengers-=n
+            @@passengers_tot-=n
             @seating+=n
         else
             p "El bus está vacio, solo pueden bajar #{@passengers} pasajeros"
             @passengers=0
+            @@passengers_tot=0
         end
     end
 
 end
 
 b1=Bus.new(10)
-
-p "Velocidad: #{b1.speed}" 
-
-b1.acelerate(10)
-
-p "Velocidad: #{b1.speed}" 
-
-b1.acelerate(10)
-
-p "Velocidad: #{b1.speed}" 
-
-p "Pasajeros: #{b1.passengers}" 
-
-p "Asientos: #{b1.seating}" 
+b2=Bus.new(15)
 
 b1.add_passengers(5)
 
 p "Pasajeros: #{b1.passengers}" 
 
-p "Asientos: #{b1.seating}" 
-
-b1.breaks
-
-p "Velocidad: #{b1.speed}" 
-
 b1.add_passengers(6)
-
-p "Asientos: #{b1.seating}" 
 
 p "Pasajeros: #{b1.passengers}" 
 
-p "Se van dos pasajeros #{b1.leave_passengers(2)}"
 
-b1.add_passengers(3)
+b2.add_passengers(2)
+
+p "Pasajeros: #{b1.passengers}" 
+
+p Bus.all_passengers
+
