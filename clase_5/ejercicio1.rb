@@ -1,3 +1,5 @@
+require 'pry'
+
 class Bus
 
     attr_accessor :speed, :passengers, :seating
@@ -59,10 +61,12 @@ b1.add_passengers(6)
 
 p "Pasajeros: #{b1.passengers}" 
 
-
 b2.add_passengers(2)
 
-p "Pasajeros: #{b1.passengers}" 
+p "Pasajeros: #{b2.passengers}" 
 
-p Bus.all_passengers
+
+binding.pry
+
+Bus.all_passengers
 
