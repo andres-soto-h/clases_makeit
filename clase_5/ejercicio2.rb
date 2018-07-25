@@ -4,6 +4,7 @@ class Telefono
     attr_accessor :calling, :contact, :phone
 
     @@devices=0
+    @@total_time=0
 
     def initialize
 
@@ -12,11 +13,14 @@ class Telefono
         @call_ini=0
         @call_end=0
         @@devices+=1
-
     end
 
     def self.get_devices
-        p @@devices
+        p "Se han creado #{@@devices} instancias de la clase Telefono" 
+    end
+
+    def self.get_all_times
+        p "La duracion de todas las llamadas realizadas es de #{@@total_time}" 
     end
     
     def call(contact,phone)
@@ -54,6 +58,8 @@ class Telefono
 
         @call_dur= (@call_end-@call_ini)
 
+        @@total_time+=@call_dur
+
         @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
 
         @call_log.push(@current_call)
@@ -78,6 +84,8 @@ l1.call("Jesus",8888)
 
 sleep(10)
 
+l1.end_call
+
 l2=Telefono.new
 
 l2.call("Juan",3983832)
@@ -89,6 +97,8 @@ sleep(5)
 l2.end_call
 
 l1.call_history
+
 l2.call_history
 
 Telefono.get_devices
+Telefono.get_all_times

@@ -4,11 +4,12 @@ class Bus
 
     attr_accessor :speed, :passengers, :seating
 
+    @@passengers_tot=0
+    
     def initialize(seating)
         @seating=seating
         @speed=0
         @passengers=0
-        @@passengers_tot=0
     end
 
     def self.all_passengers
