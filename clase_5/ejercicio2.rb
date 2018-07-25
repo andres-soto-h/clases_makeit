@@ -1,13 +1,9 @@
 
-
-require 'pry'
-
-
-
-
 class Telefono
 
     attr_accessor :calling, :contact, :phone
+
+    @@devices=0
 
     def initialize
 
@@ -15,7 +11,12 @@ class Telefono
         @call_log=[]
         @call_ini=0
         @call_end=0
-    
+        @@devices+=1
+
+    end
+
+    def self.get_devices
+        p @@devices
     end
     
     def call(contact,phone)
@@ -32,11 +33,7 @@ class Telefono
             
             @phone=phone
 
-            @call_ini=Time.now.to_i
-
-            @call_dur= (@call_end-@call_ini)
-
-            @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
+            @call_ini=Time.now.to_f
 
         else
             p "El teléfono está ocupado."
@@ -46,15 +43,19 @@ class Telefono
 
     def show_call_info
 
-        p "Llamada con #{@contact} en curso..."
+        p "Llamada con #{@contact} Tel: #{@phone} en curso..."
 
     end
 
     def end_call
         @calling=false    
-        @call_end=Time.now.to_i
-        @current_call
         
+        @call_end=Time.now.to_f
+
+        @call_dur= (@call_end-@call_ini)
+
+        @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
+
         @call_log.push(@current_call)
     end
 
@@ -65,40 +66,29 @@ end
 
 l1=Telefono.new
 
+l1.call("Pedro",198292)
 
-until option.to_s=="q"
+sleep(3)
 
-    puts "clear"+
-      "---------------------Ingrese una opción:---------------------\n"+
-      "1. . \n"+
-      "2. Buscar un teléfono. \n"+
-      "3. Listar directorio de contactos. \n"+
-      "Para salir ingrese q y presione la tecla enter.\n"
-    option=gets.chomp()
-    
-    break if option.to_s=="q"
+l1.show_call_info
 
-    case option.to_i
+l1.end_call
 
-        when 1
-            p "Ingrese un nombre:"
-            user=gets.chomp
-            p "Ingrese un teléfono:"
-            phone=gets.chomp
-            create_contact(user,phone,@directory,'directorio.csv')          
-        when 2
-            p "Ingrese un nombre para buscar:"
-            user=gets.chomp
-            list_user_phone(user,@directory)
-        when 3
-            list_contacts(@directory)
-        else
-            puts "La opción seleccionada no es válida, intente nuevamente.\n"
-    end
-    
-end
+l1.call("Jesus",8888)
 
+sleep(10)
 
+l2=Telefono.new
 
+l2.call("Juan",3983832)
 
-# Se debe crear ciclo infinito con opciones + conectar con directorio
+l2.show_call_info
+
+sleep(5)
+
+l2.end_call
+
+l1.call_history
+l2.call_history
+
+Telefono.get_devices
