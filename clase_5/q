@@ -1,0 +1,18 @@
+
+[1mFrom:[0m /home/andres/Documentos/clases_makeit/clase_5/ejercicio2.rb @ line 85 Telefono#call_from_dir:
+
+    [1;34m80[0m: [32mdef[0m [1;34mcall_from_dir[0m
+    [1;34m81[0m:     p [31m[1;31m"[0m[31mIngrese un nombre para buscar:[1;31m"[0m[31m[0m
+    [1;34m82[0m:     user=gets.chomp
+    [1;34m83[0m:     ans=list_user_phone(user,@directory).chop
+    [1;34m84[0m: 
+ => [1;34m85[0m:     binding.pry
+    [1;34m86[0m: 
+    [1;34m87[0m:     [32mif[0m !ans==[31m[1;31m"[0m[31mNo existe[1;31m"[0m[31m[0m
+    [1;34m88[0m:         call(user,ans)
+    [1;34m89[0m:     [32melse[0m
+    [1;34m90[0m:         [31m[1;31m"[0m[31mNo se encontro el contacto en el directorio.[1;31m"[0m[31m[0m
+    [1;34m91[0m:     [32mend[0m
+    [1;34m92[0m: 
+    [1;34m93[0m: [32mend[0m
+
