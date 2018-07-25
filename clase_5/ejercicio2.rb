@@ -1,4 +1,9 @@
+
+
 require 'pry'
+
+
+
 
 class Telefono
 
@@ -59,6 +64,41 @@ class Telefono
 end
 
 l1=Telefono.new
+
+
+until option.to_s=="q"
+
+    puts "clear"+
+      "---------------------Ingrese una opción:---------------------\n"+
+      "1. . \n"+
+      "2. Buscar un teléfono. \n"+
+      "3. Listar directorio de contactos. \n"+
+      "Para salir ingrese q y presione la tecla enter.\n"
+    option=gets.chomp()
+    
+    break if option.to_s=="q"
+
+    case option.to_i
+
+        when 1
+            p "Ingrese un nombre:"
+            user=gets.chomp
+            p "Ingrese un teléfono:"
+            phone=gets.chomp
+            create_contact(user,phone,@directory,'directorio.csv')          
+        when 2
+            p "Ingrese un nombre para buscar:"
+            user=gets.chomp
+            list_user_phone(user,@directory)
+        when 3
+            list_contacts(@directory)
+        else
+            puts "La opción seleccionada no es válida, intente nuevamente.\n"
+    end
+    
+end
+
+
 
 
 # Se debe crear ciclo infinito con opciones + conectar con directorio
