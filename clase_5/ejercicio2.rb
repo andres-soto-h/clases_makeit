@@ -1,14 +1,9 @@
-
-@directory={}
-
-
-
-
+require 'pry'
 
 class Telefono
 
     attr_accessor :calling, :contact, :phone
-
+    
     @@devices=0
     @@total_time=0
 
@@ -19,6 +14,8 @@ class Telefono
         @call_ini=0
         @call_end=0
         @@devices+=1
+        @directory={}
+    
     end
 
     def self.get_devices
@@ -28,7 +25,73 @@ class Telefono
     def self.get_all_times
         p "La duracion de todas las llamadas realizadas es de #{@@total_time}" 
     end
+
+    ##################  METODOS DE LA CLASE TELEFONO #####################
+
+    def import_directory(file_name)
+
+        n_contacts=0
     
+        file_as_array=IO.readlines(file_name)
+    
+        
+
+        file_as_array.each do |contact|
+            
+            dato_split=contact.split(";")
+            
+            #binding.pry
+            
+            @directory[dato_split[0]]=dato_split[1]
+            n_contacts+=1
+    
+        end
+    
+        puts "--------------------------------------------------------------\n"+ 
+        "Se importaron #{n_contacts} contactos desde el directorio local.\n"+
+        "--------------------------------------------------------------\n"
+    end
+    
+    def list_contacts(directory_name)
+        directory_name.each_with_index do |(key,value),index|
+            p "#{index}: Usuario:#{key} Teléfono: #{value.chop}"
+        end
+    end
+    
+    def create_contact(user_name,phone,directory_name,file_name)
+        if !directory_name.has_key?(user_name)
+            
+            directory_name[user_name]=phone
+            File.open(file_name,'a'){|file| file.puts("#{user_name};#{phone}")}
+        
+        else
+            puts "Ya existe un usuario llamado: #{user_name} en el directorio.\n"
+        end
+    end
+    
+    def list_user_phone(user_name,directory_name)
+        if directory_name.has_key?(user_name)
+            "#{directory_name[user_name]}"
+        else
+            "No existe"
+        end
+    end
+    
+    def call_from_dir
+        p "Ingrese un nombre para buscar:"
+        user=gets.chomp
+        ans=list_user_phone(user,@directory).chop
+
+        #binding.pry
+
+        if ans!="No existe"
+            call(user,ans)
+        else
+            p "No se encontro el contacto en el directorio."
+        end
+
+    end
+
     def call(contact,phone)
         
         if !@calling
@@ -74,59 +137,17 @@ class Telefono
     def call_history
         p @call_log
     end
-
-    ##################  METODOS DE LA CLASE TELEFONO #####################
-
-    def import_directory(file_name)
-
-        n_contacts=0
-    
-        file_as_array=IO.readlines(file_name)
-    
-        file_as_array.each do |contact|
-            
-            dato_split=contact.split(";")
-            @directory[dato_split[0]]=dato_split[1]
-            n_contacts+=1
-    
-        end
-    
-        puts "--------------------------------------------------------------\n"+ 
-        "Se importaron #{n_contacts} contactos desde el directorio local.\n"+
-        "--------------------------------------------------------------\n"
-    end
-    
-    def list_contacts(directory_name)
-        directory_name.each_with_index do |(key,value),index|
-            p "#{index}: Usuario:#{key} Teléfono: #{value.chop}"
-        end
-    end
-    
-    def create_contact(user_name,phone,directory_name,file_name)
-        if !directory_name.has_key?(user_name)
-            
-            directory_name[user_name]=phone
-            File.open(file_name,'a'){|file| file.puts("#{user_name};#{phone}")}
-        
-        else
-            puts "Ya existe un usuario llamado: #{user_name} en el directorio.\n"
-        end
-    end
-    
-    def list_user_phone(user_name,directory_name)
-        if directory_name.has_key?(user_name)
-            puts "El teléfono es: #{directory_name[user_name]} \n"
-        else
-            puts "Lo sentimos, la persona que buscas no existe.\n"
-        end
-    end
-    
     
 end
 
-import_directory('..\clase_4\directorio.csv')
 
-# l1=Telefono.new
+l1=Telefono.new
+
+l1.import_directory('../clase_4/directorio.csv')
+
+l1.call_from_dir
+
+l1.show_call_info
 
 # l1.call("Pedro",198292)
 
