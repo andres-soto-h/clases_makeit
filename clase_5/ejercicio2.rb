@@ -1,3 +1,5 @@
+require 'pry'
+
 class Telefono
 
     attr_accessor :calling, :contact, :phone
