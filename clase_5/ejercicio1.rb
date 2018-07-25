@@ -65,8 +65,7 @@ b2.add_passengers(2)
 
 p "Pasajeros: #{b2.passengers}" 
 
-
-binding.pry
+#binding.pry
 
 Bus.all_passengers
 
