@@ -96,28 +96,42 @@ class SuperBus < Bus
     end
 
     def get_money
-        p "En este bus has recaudado #{@money}"
+        p "En este bus has recaudado $ #{@money}"
     end
     
     def self.get_total_money
-        p "En todos los buses has recaudado #{@@total_super_bus}"
+        p "En todos los buses has recaudado $ #{@@total_super_bus}"
     end
 end
 
-# b1=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
-# b1.add_passengers(5)
-# p "Pasajeros: #{b1.passengers}" 
-# b1.add_passengers(6)
-# p "Pasajeros: #{b1.passengers}" 
-# b1.validate_route(10)
-# b1.validate_route(14)
+p "-------------RESULTADOS RUTAS---------------"
 
+b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
+b0.add_passengers(5)
+p "Pasajeros: #{b0.passengers}" 
+b0.add_passengers(6)
+p "Pasajeros: #{b0.passengers}" 
+b0.validate_route(10)
+b0.validate_route(14)
+
+p "-------------RESULTADOS SUPER BUS 1---------------"
 
 b2=SuperBus.new(15,500)
 b2.add_passengers(2)
 p "Pasajeros: #{b2.passengers}" 
 b2.add_passengers(3)
 p "Pasajeros: #{b2.passengers}" 
-b2.validate_route(10)
-b2.validate_route(14)
+b2.get_money()
+
+
+p "-------------RESULTADOS SUPER BUS 2 + TOTAL DE RECAUDO---------------"
+
+b3=SuperBus.new(15,500)
+b3.add_passengers(1)
+p "Pasajeros: #{b3.passengers}" 
+b3.add_passengers(1)
+p "Pasajeros: #{b3.passengers}" 
+b3.get_money()
+
+SuperBus.get_total_money
 
