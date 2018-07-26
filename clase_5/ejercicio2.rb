@@ -73,7 +73,7 @@ class Telefono
         if directory_name.has_key?(user_name)
             "#{directory_name[user_name]}"
         else
-            "No existe"
+            "No existe\n"
         end
     end
     
@@ -116,22 +116,28 @@ class Telefono
 
     def show_call_info
 
-        p "Llamada con #{@contact} Tel: #{@phone} en curso..."
+        @calling ? "Llamada con #{@contact} Tel: #{@phone} en curso..." : "No hay llamadas en curso."
 
     end
 
     def end_call
-        @calling=false    
-        
-        @call_end=Time.now.to_f
 
-        @call_dur= (@call_end-@call_ini)
+        if @calling
 
-        @@total_time+=@call_dur
+            @calling=false    
+            
+            @call_end=Time.now.to_f
 
-        @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
+            @call_dur= (@call_end-@call_ini)
 
-        @call_log.push(@current_call)
+            @@total_time+=@call_dur
+
+            @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
+
+            @call_log.push(@current_call)
+        else
+            p "El teléfono no está en uso."
+        end
     end
 
     def call_history
@@ -147,7 +153,14 @@ l1.import_directory('../clase_4/directorio.csv')
 
 l1.call_from_dir
 
-l1.show_call_info
+p l1.show_call_info
+
+sleep(3)
+
+l1.end_call
+
+l1.call_history
+
 
 # l1.call("Pedro",198292)
 
