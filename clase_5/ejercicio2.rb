@@ -189,15 +189,22 @@ l1.call_history
 
 class Fax < Telefono
 
-    def initialize
+    attr_accessor :calling, :contact, :phone, :not_available
+    
+    def initialize(not_available)
         super
+        @not_available=not_available
+        @call_time=0
     end
+
 
 end
 
 
 class CellPhone < Telefono
 
+    attr_accessor :calling, :contact, :phone
+    
     def initialize
         super
     end
