@@ -56,20 +56,20 @@ class MicroBus < Bus
 
     attr_accessor :routes
         
-    def initialize(routes)
-        super
+    def initialize(seating, routes)
         @routes=routes
+        super(seating)
     end
 
     def validate_route(route_time)
         
-        @routes.each do |value,key|
+        @routes.each do |key, value|
 
             dato_split=value.split("-")
-            time_ini=dato_split[0]
-            time_end=dato_split[1]
+            time_ini=dato_split[0].to_i
+            time_end=dato_split[1].to_i
 
-            if  route_time>=time_ini || route_time<=time_end
+            if  route_time>=time_ini && route_time<=time_end
                 p "La ruta de este bus es: #{key}"
             end
 
@@ -83,10 +83,10 @@ class SuperBus < Bus
 
     @@total_super_bus=0
 
-    def initialize(price)
-        super
+    def initialize(seating, price)
         @price=price
         @money=0
+        super(seating)
     end
 
     def add_passengers(n)
@@ -104,12 +104,20 @@ class SuperBus < Bus
     end
 end
 
-b1=MicroBus.new(10)
+# b1=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
+# b1.add_passengers(5)
+# p "Pasajeros: #{b1.passengers}" 
+# b1.add_passengers(6)
+# p "Pasajeros: #{b1.passengers}" 
+# b1.validate_route(10)
+# b1.validate_route(14)
 
-b1.add_passengers(5)
 
-p "Pasajeros: #{b1.passengers}" 
+b2=SuperBus.new(15,500)
+b2.add_passengers(2)
+p "Pasajeros: #{b2.passengers}" 
+b2.add_passengers(3)
+p "Pasajeros: #{b2.passengers}" 
+b2.validate_route(10)
+b2.validate_route(14)
 
-b1.add_passengers(6)
-
-p "Pasajeros: #{b1.passengers}" 
