@@ -227,7 +227,7 @@ class CellPhone < Telefono
     attr_accessor :calling, :contact, :phone
     
     def initialize(battery_last)
-        @inial=battery_last*60*60
+        @end_time=Time.now.to_f+(battery_last*60*60)
         @battery_last=battery_last*60*60
         super()
     end
@@ -235,10 +235,10 @@ class CellPhone < Telefono
     private
 
     def battery_consum
-        while @battery_last>0 do
-            sleep(1)
-            @battery_last-=1
-            p "Queda #{(@battery_last/@inial).round(2)*100} % de bateria."
+        if @end_time-Time.now.to_f>0
+            p "Queda #{((@end_time-Time.now.to_f)/@battery_last).round(2)*100} % de bateria."
+        else
+            p "La batería está agotada."
         end
     end
 
@@ -246,7 +246,6 @@ class CellPhone < Telefono
 
     def charge_level
         battery_consum()
-        p "La bateria está agotada."
     end
 
 end
@@ -263,4 +262,8 @@ l1.doc_send('archivo_fax.txt')
 p "--------------------------------------------------"
 
 cel1=CellPhone.new(0.009)
+cel1.charge_level()
+sleep(2)
+cel1.charge_level()
+sleep(3)
 cel1.charge_level()
