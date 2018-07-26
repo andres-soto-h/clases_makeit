@@ -51,8 +51,60 @@ class Bus
 
 end
 
-b1=Bus.new(10)
-b2=Bus.new(15)
+
+class MicroBus < Bus
+
+    attr_accessor :routes
+        
+    def initialize(routes)
+        super
+        @routes=routes
+    end
+
+    def validate_route(route_time)
+        
+        @routes.each do |value,key|
+
+            dato_split=value.split("-")
+            time_ini=dato_split[0]
+            time_end=dato_split[1]
+
+            if  route_time>=time_ini || route_time<=time_end
+                p "La ruta de este bus es: #{key}"
+            end
+
+        end
+
+    end
+end
+
+
+class SuperBus < Bus
+
+    @@total_super_bus=0
+
+    def initialize(price)
+        super
+        @price=price
+        @money=0
+    end
+
+    def add_passengers(n)
+        super
+        @money+=(n*@price)
+        @@total_super_bus+=(n*@price)
+    end
+
+    def get_money
+        p "En este bus has recaudado #{@money}"
+    end
+    
+    def self.get_total_money
+        p "En todos los buses has recaudado #{@@total_super_bus}"
+    end
+end
+
+b1=MicroBus.new(10)
 
 b1.add_passengers(5)
 
@@ -61,12 +113,3 @@ p "Pasajeros: #{b1.passengers}"
 b1.add_passengers(6)
 
 p "Pasajeros: #{b1.passengers}" 
-
-b2.add_passengers(2)
-
-p "Pasajeros: #{b2.passengers}" 
-
-#binding.pry
-
-Bus.all_passengers
-
