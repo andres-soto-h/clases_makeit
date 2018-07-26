@@ -50,7 +50,6 @@ class Telefono
         puts "--------------------------------------------------------------\n"+ 
         "Se importaron #{n_contacts} contactos desde el directorio local.\n"+
         "--------------------------------------------------------------\n"
-<<<<<<< HEAD
     end
     
     def list_contacts(directory_name)
@@ -59,16 +58,6 @@ class Telefono
         end
     end
     
-=======
-    end
-    
-    def list_contacts(directory_name)
-        directory_name.each_with_index do |(key,value),index|
-            p "#{index}: Usuario:#{key} Teléfono: #{value.chop}"
-        end
-    end
-    
->>>>>>> f64e664194848b3bf0d43b12309ac80f1ab0814d
     def create_contact(user_name,phone,directory_name,file_name)
         if !directory_name.has_key?(user_name)
             
@@ -153,58 +142,6 @@ class Telefono
 
     def call_history
         p @call_log
-<<<<<<< HEAD
-    end
-    
-end
-
-
-l1=Telefono.new
-
-l1.import_directory('../clase_4/directorio.csv')
-
-l1.call_from_dir
-
-p l1.show_call_info
-
-sleep(3)
-
-l1.end_call
-
-l1.call_history
-
-
-# l1.call("Pedro",198292)
-
-# sleep(3)
-
-# l1.show_call_info
-
-# l1.end_call
-
-# l1.call("Jesus",8888)
-
-# sleep(10)
-
-# l1.end_call
-
-# l2=Telefono.new
-
-# l2.call("Juan",3983832)
-
-# l2.show_call_info
-
-# sleep(5)
-
-# l2.end_call
-
-# l1.call_history
-
-# l2.call_history
-
-# Telefono.get_devices
-# Telefono.get_all_times
-=======
     end
     
 end
@@ -273,4 +210,3 @@ class CellPhone < Telefono
     end
 
 end
->>>>>>> f64e664194848b3bf0d43b12309ac80f1ab0814d
