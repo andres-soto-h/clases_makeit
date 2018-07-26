@@ -148,19 +148,12 @@ end
 
 
 l1=Telefono.new
-
 l1.import_directory('../clase_4/directorio.csv')
-
 l1.call_from_dir
-
 p l1.show_call_info
-
 sleep(3)
-
 l1.end_call
-
 l1.call_history
-
 
 # l1.call("Pedro",198292)
 
@@ -192,3 +185,21 @@ l1.call_history
 
 # Telefono.get_devices
 # Telefono.get_all_times
+
+
+class Fax < Telefono
+
+    def initialize
+        super
+    end
+
+end
+
+
+class CellPhone < Telefono
+
+    def initialize
+        super
+    end
+
+end
