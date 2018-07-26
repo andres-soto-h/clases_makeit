@@ -237,9 +237,8 @@ class CellPhone < Telefono
     def battery_consum
         while @battery_last>0 do
             sleep(1)
-            left=(@battery_last/@inial)
-            @battery_last-=(0.01*@battery_last)
-            p "Queda #{left.to_f*100} % de bateria."
+            @battery_last-=1
+            p "Queda #{(@battery_last/@inial).round(2)*100} % de bateria."
         end
     end
 
@@ -247,6 +246,7 @@ class CellPhone < Telefono
 
     def charge_level
         battery_consum()
+        p "La bateria está agotada."
     end
 
 end
@@ -262,5 +262,5 @@ l1.doc_send('archivo_fax.txt')
 
 p "--------------------------------------------------"
 
-cel1=CellPhone.new(0.3)
+cel1=CellPhone.new(0.009)
 cel1.charge_level()
