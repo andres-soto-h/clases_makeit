@@ -148,19 +148,12 @@ end
 
 
 l1=Telefono.new
-
 l1.import_directory('../clase_4/directorio.csv')
-
 l1.call_from_dir
-
 p l1.show_call_info
-
 sleep(3)
-
 l1.end_call
-
 l1.call_history
-
 
 # l1.call("Pedro",198292)
 
@@ -192,3 +185,28 @@ l1.call_history
 
 # Telefono.get_devices
 # Telefono.get_all_times
+
+
+class Fax < Telefono
+
+    attr_accessor :calling, :contact, :phone, :not_available
+    
+    def initialize(not_available)
+        super
+        @not_available=not_available
+        @call_time=0
+    end
+
+
+end
+
+
+class CellPhone < Telefono
+
+    attr_accessor :calling, :contact, :phone
+    
+    def initialize
+        super
+    end
+
+end
