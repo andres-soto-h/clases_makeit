@@ -147,13 +147,13 @@ class Telefono
 end
 
 
-l1=Telefono.new
-l1.import_directory('../clase_4/directorio.csv')
-l1.call_from_dir
-p l1.show_call_info
-sleep(3)
-l1.end_call
-l1.call_history
+# l1=Telefono.new
+# l1.import_directory('../clase_4/directorio.csv')
+# l1.call_from_dir
+# p l1.show_call_info
+# sleep(3)
+# l1.end_call
+# l1.call_history
 
 # l1.call("Pedro",198292)
 
@@ -189,17 +189,34 @@ l1.call_history
 
 class Fax < Telefono
 
-    attr_accessor :calling, :contact, :phone, :not_available
+    attr_accessor :calling, :contact, :phone, :available
     
-    def initialize(not_available)
-        super
-        @not_available=not_available
-        @call_time=0
+    def initialize(available)
+        @available=available
+        super()
     end
 
+    def call(contact, phone, call_time_user)
+        
+        #binding.pry
+        if !@available[:available].include?(call_time_user)
+            ans_machine()
+        end
+
+        super(contact, phone)
+        
+    end
+
+    def ans_machine
+        p "#{@available[:custom_message]}"
+        exit
+    end
+
+    def doc_send(file)
+        file_as_array=IO.readlines(file_name)
+    end
 
 end
-
 
 class CellPhone < Telefono
 
@@ -210,3 +227,11 @@ class CellPhone < Telefono
     end
 
 end
+
+
+l1=Fax.new({ available: Array(8..17), custom_message: "En este momento no es posible atenderlo."})
+l1.call("Andres",29291,10)
+p l1.show_call_info
+sleep(5)
+l1.end_call
+l1.call_history
