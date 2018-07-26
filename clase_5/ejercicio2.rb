@@ -214,9 +214,9 @@ class Fax < Telefono
 
     def doc_send(file_read)
         
-        file_as_array=file.read(file_read)
+        file_as_array=File.read(file_read)
 
-        File.write(fax_enviado.txt, file_as_array)
+        File.write('fax_enviado.txt', file_as_array)
                 
     end
 
@@ -239,3 +239,4 @@ p l1.show_call_info
 sleep(5)
 l1.end_call
 l1.call_history
+l1.doc_send('archivo_fax.txt')
