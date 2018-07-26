@@ -226,8 +226,27 @@ class CellPhone < Telefono
 
     attr_accessor :calling, :contact, :phone
     
-    def initialize
-        super
+    def initialize(battery_last)
+        @inial=battery_last*60*60
+        @battery_last=battery_last*60*60
+        super()
+    end
+
+    private
+
+    def battery_consum
+        while @battery_last>0 do
+            sleep(1)
+            left=(@battery_last/@inial)
+            @battery_last-=(0.01*@battery_last)
+            p "Queda #{left.to_f*100} % de bateria."
+        end
+    end
+
+    public
+
+    def charge_level
+        battery_consum()
     end
 
 end
@@ -236,7 +255,12 @@ end
 l1=Fax.new({ available: Array(8..17), custom_message: "En este momento no es posible atenderlo."})
 l1.call("Andres",29291,10)
 p l1.show_call_info
-sleep(5)
+sleep(1)
 l1.end_call
 l1.call_history
 l1.doc_send('archivo_fax.txt')
+
+p "--------------------------------------------------"
+
+cel1=CellPhone.new(0.3)
+cel1.charge_level()
