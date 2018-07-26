@@ -212,8 +212,12 @@ class Fax < Telefono
         exit
     end
 
-    def doc_send(file)
-        file_as_array=IO.readlines(file_name)
+    def doc_send(file_read)
+        
+        file_as_array=file.read(file_read)
+
+        File.write(fax_enviado.txt, file_as_array)
+                
     end
 
 end
