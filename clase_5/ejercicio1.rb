@@ -104,34 +104,84 @@ class SuperBus < Bus
     end
 end
 
-p "-------------RESULTADOS RUTAS---------------"
 
-b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
-b0.add_passengers(5)
-p "Pasajeros: #{b0.passengers}" 
-b0.add_passengers(6)
-p "Pasajeros: #{b0.passengers}" 
-b0.validate_route(10)
-b0.validate_route(14)
+module Conexiones
 
-p "-------------RESULTADOS SUPER BUS 1---------------"
+    class GPS
 
-b2=SuperBus.new(15,500)
-b2.add_passengers(2)
-p "Pasajeros: #{b2.passengers}" 
-b2.add_passengers(3)
-p "Pasajeros: #{b2.passengers}" 
-b2.get_money()
+        attr_reader :lat_lng
+
+        def initialize()
+            @lat_lng=[]
+        end
+
+        def location    
+            lat_lng.push(rand(-90..90))
+            lat_lng.push(rand(-180..180))
+            p lat_lng
+        end
+
+        class internet
+
+            def velocidad
+                p "La velocidad de conexión es: #{rand(-5.00..20.00) MB}"
+            end
+
+        end
+
+        class TV
+
+            attr_accessor :channels
+
+            def initialize(channel_list)
+                @channels=channel_list
+            end
+
+            def movie_on_channel(channel_name)
+                @channels.has_key?(channel_name) ? @channels(channel_name[rand(0..@channels(channel_name).length])) : p "No tienes este canal en tu paquete de TV."
+            end
+
+        end
+    end
+end
 
 
-p "-------------RESULTADOS SUPER BUS 2 + TOTAL DE RECAUDO---------------"
+tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
+    fox: ['The Simpsons','Family Guy'], 
+    discovery: ['A Crime To Remember','Alaska: The Last Frontier'] }
 
-b3=SuperBus.new(15,500)
-b3.add_passengers(1)
-p "Pasajeros: #{b3.passengers}" 
-b3.add_passengers(1)
-p "Pasajeros: #{b3.passengers}" 
-b3.get_money()
+tv1=Conexiones::TV.new(tv_programs)
 
-SuperBus.get_total_money
+tv1.movie_on_channel(:hbo)
+
+# p "-------------RESULTADOS RUTAS---------------"
+
+# b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
+# b0.add_passengers(5)
+# p "Pasajeros: #{b0.passengers}" 
+# b0.add_passengers(6)
+# p "Pasajeros: #{b0.passengers}" 
+# b0.validate_route(10)
+# b0.validate_route(14)
+
+# p "-------------RESULTADOS SUPER BUS 1---------------"
+
+# b2=SuperBus.new(15,500)
+# b2.add_passengers(2)
+# p "Pasajeros: #{b2.passengers}" 
+# b2.add_passengers(3)
+# p "Pasajeros: #{b2.passengers}" 
+# b2.get_money()
+
+
+# p "-------------RESULTADOS SUPER BUS 2 + TOTAL DE RECAUDO---------------"
+
+# b3=SuperBus.new(15,500)
+# b3.add_passengers(1)
+# p "Pasajeros: #{b3.passengers}" 
+# b3.add_passengers(1)
+# p "Pasajeros: #{b3.passengers}" 
+# b3.get_money()
+
+# SuperBus.get_total_money
 
