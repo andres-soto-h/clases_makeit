@@ -220,9 +220,13 @@ for1.get_forecast(22)
 
 p "-------------RESULTADOS RUTAS---------------"
 
-b00=Bus.new(10)
-b00.add_passengers(5)
-p "Pasajeros: #{b00.passengers}" 
+bus_con_modulo=Bus.new(10)
+bus_con_modulo.add_passengers(5)
+p "Pasajeros: #{bus_con_modulo.passengers}" 
+
+
+
+bus_con_modulo.movie_on_channel(:hbo)
 
 
 b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
