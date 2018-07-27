@@ -116,8 +116,8 @@ module Conexiones
         end
 
         def location    
-            lat_lng.push(rand(-90..90))
-            lat_lng.push(rand(-180..180))
+            lat_lng.push(rand(-90.0000000..90.0000000))
+            lat_lng.push(rand(-180.0000000..180.0000000))
             p lat_lng
         end
 
@@ -125,8 +125,8 @@ module Conexiones
 
     class Internet
 
-        def velocidad
-            p "La velocidad de conexión es: #{rand(-5.00..20.00)} MB"
+        def speed
+            p "La velocidad de conexión es: #{rand(5.00..20.00).round(2)} MB"
         end
 
     end
@@ -154,9 +154,25 @@ module Conexiones
         end
 
     end
+
+
+    class Climate
+
+        def get_forecast
+            
+        end
+
+    end
     
 end
 
+GPS1=Conexiones::GPS.new
+
+p "La ubicación es: #{GPS1.location}"
+
+internet1=Conexiones::Internet.new
+
+internet1.speed
 
 tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
     fox: ['The Simpsons','Family Guy'], 
