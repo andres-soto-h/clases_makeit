@@ -121,28 +121,40 @@ module Conexiones
             p lat_lng
         end
 
-        class internet
-
-            def velocidad
-                p "La velocidad de conexión es: #{rand(-5.00..20.00) MB}"
-            end
-
-        end
-
-        class TV
-
-            attr_accessor :channels
-
-            def initialize(channel_list)
-                @channels=channel_list
-            end
-
-            def movie_on_channel(channel_name)
-                @channels.has_key?(channel_name) ? @channels(channel_name[rand(0..@channels(channel_name).length])) : p "No tienes este canal en tu paquete de TV."
-            end
-
-        end
     end
+
+    class Internet
+
+        def velocidad
+            p "La velocidad de conexión es: #{rand(-5.00..20.00)} MB"
+        end
+
+    end
+
+    class TV
+
+        attr_accessor :channels
+
+        def initialize(channel_list)
+            @channels=channel_list
+        end
+
+        def movie_on_channel(channel_name)
+            if @channels.has_key?(channel_name) 
+            
+                list=@channels[channel_name]
+                n=rand(0..list.length-1)
+                p list[n]
+
+            else
+
+                p "No tienes este canal en tu paquete de TV."
+            
+            end
+        end
+
+    end
+    
 end
 
 
@@ -153,6 +165,8 @@ tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
 tv1=Conexiones::TV.new(tv_programs)
 
 tv1.movie_on_channel(:hbo)
+
+tv1.movie_on_channel(:caracol)
 
 # p "-------------RESULTADOS RUTAS---------------"
 
