@@ -1,6 +1,89 @@
 require 'pry'
 
+
+module Conexiones
+
+    class GPS
+
+        attr_reader :lat_lng
+
+        def initialize()
+            @lat_lng=[]
+        end
+
+        def location    
+            lat_lng.push(rand(-90.0000000..90.0000000))
+            lat_lng.push(rand(-180.0000000..180.0000000))
+        end
+
+    end
+
+    class Internet
+
+        def speed
+            p "La velocidad de conexión es: #{rand(5.00..20.00).round(2)} MB"
+        end
+
+    end
+
+    class TV
+
+        attr_accessor :channels
+
+        def initialize(channel_list)
+            @channels=channel_list
+        end
+
+        def movie_on_channel(channel_name)
+            if @channels.has_key?(channel_name) 
+            
+                list=@channels[channel_name]
+                n=rand(0..list.length-1)
+                p "Estamos presentando: #{list[n]} en #{channel_name.to_s.upcase}"
+
+            else
+
+                p "No tienes #{channel_name.to_s.upcase} en tu paquete de TV."
+            
+            end
+        end
+
+    end
+
+
+    class Climate
+
+        def get_forecast(day_time)
+
+            try=0
+            forecast_result=0
+
+            options={soleado: Array(7..10), lluvia: Array(11..12), nublado: Array(13..16)}
+
+            options.each do |key,value|
+
+            if value.include?(day_time)  
+                    p "El pronóstico para las #{day_time} es: #{key.to_s}"
+                else 
+                    try+=1
+                end
+            
+            end
+
+            if try==3
+                 p "No hay pronosticos para las #{day_time}"
+            end
+
+        end
+
+    end
+    
+end
+
+
 class Bus
+
+    include Conexiones
 
     attr_accessor :speed, :passengers, :seating
 
@@ -104,7 +187,43 @@ class SuperBus < Bus
     end
 end
 
+
+puts "--------------------------------------------------------------\n" +
+"                      SISTEMAS ADICIONALES DEL BUS                 \n" +
+"--------------------------------------------------------------" 
+
+GPS1=Conexiones::GPS.new
+p "La ubicación es: #{GPS1.location}"
+internet1=Conexiones::Internet.new
+internet1.speed
+
+tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
+    fox: ['The Simpsons','Family Guy'], 
+    discovery: ['A Crime To Remember','Alaska: The Last Frontier'] }
+
+tv1=Conexiones::TV.new(tv_programs)
+tv1.movie_on_channel(:hbo)
+tv1.movie_on_channel(:caracol)
+tv1.movie_on_channel(:discovery)
+
+for1=Conexiones::Climate.new
+
+puts "--------------------------------------------------------------\n" +
+"                      INICIA PRONÓSTICO DEL CLIMA                  \n" +
+"--------------------------------------------------------------" 
+
+for1.get_forecast(8)
+for1.get_forecast(11)
+for1.get_forecast(14)
+for1.get_forecast(22)
+
+
 p "-------------RESULTADOS RUTAS---------------"
+
+b00=Bus.new(10)
+b00.add_passengers(5)
+p "Pasajeros: #{b00.passengers}" 
+
 
 b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
 b0.add_passengers(5)
@@ -112,26 +231,25 @@ p "Pasajeros: #{b0.passengers}"
 b0.add_passengers(6)
 p "Pasajeros: #{b0.passengers}" 
 b0.validate_route(10)
-b0.validate_route(14)
 
-p "-------------RESULTADOS SUPER BUS 1---------------"
+# p "-------------RESULTADOS SUPER BUS 1---------------"
 
-b2=SuperBus.new(15,500)
-b2.add_passengers(2)
-p "Pasajeros: #{b2.passengers}" 
-b2.add_passengers(3)
-p "Pasajeros: #{b2.passengers}" 
-b2.get_money()
+# b2=SuperBus.new(15,500)
+# b2.add_passengers(2)
+# p "Pasajeros: #{b2.passengers}" 
+# b2.add_passengers(3)
+# p "Pasajeros: #{b2.passengers}" 
+# b2.get_money()
 
 
-p "-------------RESULTADOS SUPER BUS 2 + TOTAL DE RECAUDO---------------"
+# p "-------------RESULTADOS SUPER BUS 2 + TOTAL DE RECAUDO---------------"
 
-b3=SuperBus.new(15,500)
-b3.add_passengers(1)
-p "Pasajeros: #{b3.passengers}" 
-b3.add_passengers(1)
-p "Pasajeros: #{b3.passengers}" 
-b3.get_money()
+# b3=SuperBus.new(15,500)
+# b3.add_passengers(1)
+# p "Pasajeros: #{b3.passengers}" 
+# b3.add_passengers(1)
+# p "Pasajeros: #{b3.passengers}" 
+# b3.get_money()
 
-SuperBus.get_total_money
+# SuperBus.get_total_money
 
