@@ -158,8 +158,13 @@ module Conexiones
 
     class Climate
 
-        def get_forecast
-            
+        def get_forecast(day_time)
+            options={soleado: Array(7..10), lluvia: Array(11..12),nublado: Array(13..16)}
+
+            options.each do |key,value|
+                options[key].include?(day_time) ? "#{options[key]}" : "No hay pronostico para esa hora."
+            end
+
         end
 
     end
@@ -183,6 +188,10 @@ tv1=Conexiones::TV.new(tv_programs)
 tv1.movie_on_channel(:hbo)
 
 tv1.movie_on_channel(:caracol)
+
+for1=Conexiones::Climate.new
+
+p for1.get_forecast(1)
 
 # p "-------------RESULTADOS RUTAS---------------"
 
