@@ -118,7 +118,6 @@ module Conexiones
         def location    
             lat_lng.push(rand(-90.0000000..90.0000000))
             lat_lng.push(rand(-180.0000000..180.0000000))
-            p lat_lng
         end
 
     end
@@ -144,11 +143,11 @@ module Conexiones
             
                 list=@channels[channel_name]
                 n=rand(0..list.length-1)
-                p list[n]
+                p "Estamos presentando: #{list[n]} en #{channel_name.to_s.upcase}"
 
             else
 
-                p "No tienes este canal en tu paquete de TV."
+                p "No tienes #{channel_name.to_s.upcase} en tu paquete de TV."
             
             end
         end
@@ -159,10 +158,24 @@ module Conexiones
     class Climate
 
         def get_forecast(day_time)
-            options={soleado: Array(7..10), lluvia: Array(11..12),nublado: Array(13..16)}
+
+            try=0
+            forecast_result=0
+
+            options={soleado: Array(7..10), lluvia: Array(11..12), nublado: Array(13..16)}
 
             options.each do |key,value|
-                options[key].include?(day_time) ? "#{options[key]}" : "No hay pronostico para esa hora."
+
+            if value.include?(day_time)  
+                    p "El pronóstico para las #{day_time} es: #{key.to_s}"
+                else 
+                    try+=1
+                end
+            
+            end
+
+            if try==3
+                 p "No hay pronosticos para las #{day_time}"
             end
 
         end
@@ -171,12 +184,13 @@ module Conexiones
     
 end
 
+puts "--------------------------------------------------------------\n" +
+"                      SISTEMAS ADICIONALES DEL BUS                 \n" +
+"--------------------------------------------------------------" 
+
 GPS1=Conexiones::GPS.new
-
 p "La ubicación es: #{GPS1.location}"
-
 internet1=Conexiones::Internet.new
-
 internet1.speed
 
 tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
@@ -184,14 +198,21 @@ tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
     discovery: ['A Crime To Remember','Alaska: The Last Frontier'] }
 
 tv1=Conexiones::TV.new(tv_programs)
-
 tv1.movie_on_channel(:hbo)
-
 tv1.movie_on_channel(:caracol)
+tv1.movie_on_channel(:discovery)
 
 for1=Conexiones::Climate.new
 
-p for1.get_forecast(1)
+puts "--------------------------------------------------------------\n" +
+"                      INICIA PRONÓSTICO DEL CLIMA                  \n" +
+"--------------------------------------------------------------" 
+
+for1.get_forecast(8)
+for1.get_forecast(11)
+for1.get_forecast(14)
+for1.get_forecast(22)
+
 
 # p "-------------RESULTADOS RUTAS---------------"
 
