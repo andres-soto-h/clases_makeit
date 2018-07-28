@@ -30,6 +30,35 @@ module Gatgests
     end
 
     class NotePad
+        
+        def initialize
+            
+            if !File.file?('notas.txt')
+           
+                p "No se encontró un archivo de notas, inicializando..."
+                File.write('notas.txt', text)
+
+            end
+
+        end
+
+        def new_note
+
+                p "Ingrese el texto a guardar:"
+                text=gets.chomp
+    
+                File.open('notas.txt','a'){|file| file.puts("#{texto};#{Time.now}")}
+
+        end
+        
+        def delete_note
+            p "Ingrese la posición de la nota que desea eliminar:"
+            
+        end
+
+        def get_note
+        
+        end
 
     end
 
