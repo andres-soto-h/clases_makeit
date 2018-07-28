@@ -56,30 +56,40 @@ module Gatgets
         
         def delete_note
 
-            file_as_array=File.read("notas.txt")
+            file_as_array=IO.readlines('notas.txt')
 
-            binding.pry
+            #binding.pry
 
             if file_as_array.length>0
-
-                file_as_array.each_with_index do |element, index|
                 
-                    data=element.split(";")
-                    note=data[0]
-                    note=data[1]
-
-                    puts "Id #{index} Nota: #{data[0]} Fecha: #{data[1]}"
+                get_note
                 
-                end
-                
-                p "--------------------------------------------------"+
-                "Ingrese la posición de la nota que desea eliminar:"+
-                "--------------------------------------------------"
+                puts "--------------------------------------------------\n"+
+                    "Ingrese la posición de la nota que desea eliminar:\n"+
+                    "--------------------------------------------------\n"
 
-                ans=gets.chomp
+                ans=gets.chomp.to_i
 
                 if is_numeric?(ans)
+
                     file_as_array.delete_at(ans)
+
+                    if file_as_array.length>0
+
+                        File.open('notas.txt','w'){|file| file.write("")}
+
+                        file_as_array.each do |line|
+
+                            File.open('notas.txt','a'){|file| file.puts("#{line.chop}")}
+                        
+                        end
+                    
+                    else
+
+                            File.open('notas.txt','w'){|file| file.write("")}
+
+                    end
+                    
                 else  
                     p "Ingrese un valor númerico válido."
                 end
@@ -90,7 +100,29 @@ module Gatgets
 
         def get_note
         
-            File.open('notas.txt','a'){|line| puts("#{line}")}
+
+            puts "--------------------------------------------------\n"+
+            "             Inicio de las notas:                      \n"+
+            "--------------------------------------------------\n"
+
+            
+            file_as_array=IO.readlines('notas.txt')
+
+                file_as_array.each_with_index do |element, index|
+                
+                    data=element.split(";")
+                    note=data[0]
+                    note=data[1]
+
+                    puts "Id #{index} Nota: #{data[0]} Fecha: #{data[1]}"
+                
+                end
+
+
+                puts "--------------------------------------------------\n"+
+                "               Fin de las notas:                       \n"+
+                "--------------------------------------------------\n"
+    
 
         end
 
@@ -112,9 +144,7 @@ t1.get_temperature(8)
 t1.get_temperature(12)
 
 n1=Gatgets::NotePad.new
+n1.new_note
+n1.new_note
 n1.delete_note
-# n1.get_note
-# n1.new_note
-# n1.new_note
-# n1.delete_note
-# n1.get_note
+n1.get_note
