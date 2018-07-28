@@ -1,18 +1,19 @@
 require 'pry'
-require './modulo_conexiones'
+require_relative 'modulo_conexiones'
 
 class Bus
 
     include Conexiones
 
-    attr_accessor :speed, :passengers, :seating
+    attr_accessor :speed, :passengers, :seating, :tv
 
     @@passengers_tot=0
     
-    def initialize(seating)
+    def initialize(seating, tv_prog_list)
         @seating=seating
         @speed=0
         @passengers=0
+        @tv=TV.new(tv_prog_list)
     end
 
     def self.all_passengers
@@ -50,20 +51,6 @@ class Bus
             @passengers=0
             @@passengers_tot=0
         end
-    end
-
-    def instance_module_clases(tv_prog_list,channel_name)
-        
-        tv1=TV.new(tv_prog_list)
-
-        return tv1.movie_on_channel(channel_name)
-
-        # gps11=GPS.new
-        
-        # internet1=Internet.new
-        
-        # clima1=Climate.new
-
     end
 
 end
@@ -136,9 +123,8 @@ tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
     discovery: ['A Crime To Remember','Alaska: The Last Frontier'] }
 
 tv1=Conexiones::TV.new(tv_programs)
-tv1.movie_on_channel(:hbo)
-tv1.movie_on_channel(:caracol)
-tv1.movie_on_channel(:discovery)
+tv1.movie_on_channel()
+
 
 for1=Conexiones::Climate.new
 
