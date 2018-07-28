@@ -11,8 +11,8 @@ module Conexiones
         end
 
         def location    
-            lat_lng.push(rand(-90.0000000..90.0000000))
-            lat_lng.push(rand(-180.0000000..180.0000000))
+            lat_lng.push(rand(6.165075879644407..6.323091254376969))
+            lat_lng.push(rand(-75.52136934598019..-75.62985933621457))
         end
 
     end
