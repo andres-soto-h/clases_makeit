@@ -33,10 +33,15 @@ module Conexiones
             @channels=channel_list
         end
 
-        def movie_on_channel(channel_name)
-            if @channels.has_key?(channel_name) 
+        def movie_on_channel()
+
+            p "Ingrese un canal:"
+
+            channel_name=gets.chomp
+
+            if @channels.has_key?(channel_name.to_sym) 
             
-                list=@channels[channel_name]
+                list=@channels[channel_name.to_sym]
                 n=rand(0..list.length-1)
                 p "Estamos presentando: #{list[n]} en #{channel_name.to_s.upcase}"
 
