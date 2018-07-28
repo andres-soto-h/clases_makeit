@@ -1,0 +1,4 @@
+1, Hacer tareas, true
+2, Lavar ropa, false
+1, Hacer tareas, true
+2, Lavar ropa, false
