@@ -113,46 +113,46 @@ puts "--------------------------------------------------------------\n" +
 "                      SISTEMAS ADICIONALES DEL BUS                 \n" +
 "--------------------------------------------------------------" 
 
-GPS1=Conexiones::GPS.new
-p "La ubicación es: #{GPS1.location}"
-internet1=Conexiones::Internet.new
-internet1.speed
+# GPS1=Conexiones::GPS.new
+# p "La ubicación es: #{GPS1.location}"
+# internet1=Conexiones::Internet.new
+# internet1.speed
 
 tv_programs={hbo: ['Game of Thrones','Westworld','Big Little Lies'],
     fox: ['The Simpsons','Family Guy'], 
     discovery: ['A Crime To Remember','Alaska: The Last Frontier'] }
 
-tv1=Conexiones::TV.new(tv_programs)
-tv1.movie_on_channel()
+# tv1=Conexiones::TV.new(tv_programs)
+# tv1.movie_on_channel()
 
 
-for1=Conexiones::Climate.new
+# for1=Conexiones::Climate.new
 
-puts "--------------------------------------------------------------\n" +
-"                      INICIA PRONÓSTICO DEL CLIMA                  \n" +
-"--------------------------------------------------------------" 
+# puts "--------------------------------------------------------------\n" +
+# "                      INICIA PRONÓSTICO DEL CLIMA                  \n" +
+# "--------------------------------------------------------------" 
 
-for1.get_forecast(8)
-for1.get_forecast(11)
-for1.get_forecast(14)
-for1.get_forecast(22)
+# for1.get_forecast(8)
+# for1.get_forecast(11)
+# for1.get_forecast(14)
+# for1.get_forecast(22)
 
 p "-------PRUEBA INSTANCIA DESDE CLASE CON MODULO----------"
 
-bus_con_modulo=Bus.new(10)
+bus_con_modulo=Bus.new(10,tv_programs)
 bus_con_modulo.add_passengers(5)
 p "Pasajeros: #{bus_con_modulo.passengers}" 
-programa=bus_con_modulo.instance_module_clases(tv_programs,:hbo)
+bus_con_modulo.tv.movie_on_channel
 
 
-p "-------------RESULTADOS RUTAS---------------"
+# p "-------------RESULTADOS RUTAS---------------"
 
-b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
-b0.add_passengers(5)
-p "Pasajeros: #{b0.passengers}" 
-b0.add_passengers(6)
-p "Pasajeros: #{b0.passengers}" 
-b0.validate_route(10)
+# b0=MicroBus.new(10,{ruta1: "6-9", ruta2: "10-12", ruta3: "13-17"})
+# b0.add_passengers(5)
+# p "Pasajeros: #{b0.passengers}" 
+# b0.add_passengers(6)
+# p "Pasajeros: #{b0.passengers}" 
+# b0.validate_route(10)
 
 # p "-------------RESULTADOS SUPER BUS 1---------------"
 
