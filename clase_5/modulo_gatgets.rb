@@ -134,17 +134,17 @@ module Gatgets
 
 end
 
-c1=Gatgets::Calculator.new
+# c1=Gatgets::Calculator.new
 
-p c1.sum_ab(1,2)
-p c1.sum_ab(3,2)
+# p c1.sum_ab(1,2)
+# p c1.sum_ab(3,2)
 
-t1=Gatgets::Thermometer.new
-t1.get_temperature(8)
-t1.get_temperature(12)
+# t1=Gatgets::Thermometer.new
+# t1.get_temperature(8)
+# t1.get_temperature(12)
 
-n1=Gatgets::NotePad.new
-n1.new_note
-n1.new_note
-n1.delete_note
-n1.get_note
+# n1=Gatgets::NotePad.new
+# n1.new_note
+# n1.new_note
+# n1.delete_note
+# n1.get_note
