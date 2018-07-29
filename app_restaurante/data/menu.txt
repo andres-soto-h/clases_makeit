@@ -1,0 +1,4 @@
+10011;sopa casera;5400;true
+10223;calentado de frijoles;6400;true
+1033;pasta carbonara;14600;false
+12222;sopa casera;7400;true
