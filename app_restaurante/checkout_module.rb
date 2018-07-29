@@ -36,12 +36,16 @@ module Payments
 
                 @@total_income+=total_payment
 
-                RestaurantOrder.@@orders.each do |order|
+                RestaurantOrder.@@orders.each_with_index do |order,index|
                 
                     if order[:table]==table_num
     
                         @@order_payments.push(RestaurantOrder.order)
+                        RestaurantOrder.@@orders.delete_at(index)
                         
+                        puts @@order_payments
+                        puts RestaurantOrder.@@orders
+
                     end
 
                 end
@@ -51,3 +55,5 @@ module Payments
     end
 end
 
+p1=Payments.RestaurantCheckout.new
+p1.order_pay
