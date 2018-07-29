@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'modulo_gadgets'
 
 class Telefono
 
@@ -224,11 +225,16 @@ end
 
 class CellPhone < Telefono
 
-    attr_accessor :calling, :contact, :phone
+    include Gadgets
+
+    attr_accessor :calling, :contact, :phone, :calculator, :thermometer, :notepad
     
     def initialize(battery_last)
         @end_time=Time.now.to_f+(battery_last*60*60)
         @battery_last=battery_last*60*60
+        @calculator=Calculator.new
+        @thermometer=Thermometer.new
+        @notepad=NotePad.new
         super()
     end
 
@@ -251,13 +257,13 @@ class CellPhone < Telefono
 end
 
 
-l1=Fax.new({ available: Array(8..17), custom_message: "En este momento no es posible atenderlo."})
-l1.call("Andres",29291,10)
-p l1.show_call_info
-sleep(1)
-l1.end_call
-l1.call_history
-l1.doc_send('archivo_fax.txt')
+# l1=Fax.new({ available: Array(8..17), custom_message: "En este momento no es posible atenderlo."})
+# l1.call("Andres",29291,10)
+# p l1.show_call_info
+# sleep(1)
+# l1.end_call
+# l1.call_history
+# l1.doc_send('archivo_fax.txt')
 
 p "--------------------------------------------------"
 
@@ -267,3 +273,16 @@ sleep(2)
 cel1.charge_level()
 sleep(3)
 cel1.charge_level()
+
+p "------------PRUEBA DEL MODULO GADGETS-------------"
+
+p cel1.calculator.sum_ab(1,2)
+p cel1.calculator.sum_ab(3,2)
+
+cel1.thermometer.get_temperature(8)
+cel1.thermometer.get_temperature(12)
+
+cel1.notepad.new_note
+cel1.notepad.new_note
+cel1.notepad.delete_note
+cel1.notepad.get_note
