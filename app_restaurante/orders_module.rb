@@ -2,7 +2,7 @@ require 'fileutils'
 
 module Orders
 
-    class RestOrder 
+    class RestaurantOrder 
 
         @@products =[]
 
@@ -19,6 +19,19 @@ module Orders
 
         def load_menu
 
+            File.foreach('menu.txt') do |line|
+       
+                id, name, price, available = line.chomp.split(';')                
+                @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
+
+            end
+
+            puts "Menú importado correctamente...\n\n"
+
+        end
+
+        def show_menu
+
             system "clear" 
 
             puts "--------------------------------------------\n"+
@@ -26,13 +39,13 @@ module Orders
                  "--------------------------------------------\n\n"
 
             puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
+            state={true: "Disponible", false: "No disponible"}
 
             File.foreach('menu.txt') do |line|
-
-            state={true: "Disponible", false: "No disponible"}
-            id, name, price, available = line.chomp.split(';')
-            
-            @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
+       
+                id, name, price, available = line.chomp.split(';')
+                
+                @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
                 puts "#{id}\t\t#{adjust_text(name, 30)}\t\t\t#{price}\t\t #{state[available.to_sym]}\n\n"
 
             end
@@ -40,10 +53,6 @@ module Orders
             puts "--------------------------------------------\n"+
                  "              FIN DEL MENU\n"+
                  "--------------------------------------------\n"
-
-        end
-
-        def show_menu
         
         end
 
@@ -67,5 +76,6 @@ module Orders
 
 end
 
-o1=Orders::RestOrder.new
+o1=Orders::RestaurantOrder.new
 o1.load_menu
+o1.show_menu
