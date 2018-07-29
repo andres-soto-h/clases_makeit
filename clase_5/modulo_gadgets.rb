@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'pry'
 
-module Gatgets
+module Gadgets
 
     class Calculator
 
@@ -134,16 +134,16 @@ module Gatgets
 
 end
 
-# c1=Gatgets::Calculator.new
+# c1=Gadgets::Calculator.new
 
 # p c1.sum_ab(1,2)
 # p c1.sum_ab(3,2)
 
-# t1=Gatgets::Thermometer.new
+# t1=Gadgets::Thermometer.new
 # t1.get_temperature(8)
 # t1.get_temperature(12)
 
-# n1=Gatgets::NotePad.new
+# n1=Gadgets::NotePad.new
 # n1.new_note
 # n1.new_note
 # n1.delete_note
