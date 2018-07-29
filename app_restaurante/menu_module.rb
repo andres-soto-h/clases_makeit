@@ -75,11 +75,13 @@ module Menu
             system "clear" 
             product_exist=false
             resultado=""
+            product_array=[]
 
             @@products.each do |product|
 
                 if product[:id]==product_id 
 
+                    product_array=product
                     resultado="Producto: '#{product[:name]}' Precio: $ #{product[:price]} Estado: #{@state[to_sym(product[:available])]}"
                     product_exist=true
             
@@ -93,10 +95,12 @@ module Menu
             "--------------------------------------------------\n\n"
 
             if product_exist
-                resultado
+                p resultado
             else
-                "El producto que buscas no existe."
+                p "El producto que buscas no existe."
             end
+
+            product_array
 
         end
 
@@ -115,7 +119,7 @@ module Menu
 
 end
 
-o1=Menu::RestaurantMenu.new
-o1.load_menu
-o1.show_menu
-p o1.get_product_byid(1033)
+# o1=Menu::RestaurantMenu.new
+# o1.load_menu
+# o1.show_menu
+# o1.get_product_byid(1033)
