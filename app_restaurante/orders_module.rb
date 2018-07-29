@@ -5,8 +5,12 @@ module Orders
     class RestaurantOrder 
 
         @@products =[]
+        
+        attr_reader :state
 
         def initialize
+
+            @state={true: "Disponible", false: "No disponible"}
                     
             if !File.file?('menu.txt')
             
@@ -39,14 +43,13 @@ module Orders
                  "--------------------------------------------\n\n"
 
             puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
-            state={true: "Disponible", false: "No disponible"}
-
+ 
             File.foreach('menu.txt') do |line|
        
                 id, name, price, available = line.chomp.split(';')
                 
                 @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
-                puts "#{id}\t\t#{adjust_text(name, 30)}\t\t\t#{price}\t\t #{state[available.to_sym]}\n\n"
+                puts "#{id}\t\t#{adjust_text(name, 30)}\t\t\t#{price}\t\t #{@state[available.to_sym]}\n\n"
 
             end
 
@@ -57,11 +60,44 @@ module Orders
         end
 
         def add_product
-            
+
+            puts "Ingrese los datos del producto separados por (;)\n\n"
+            puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
+
+            text=gets.chomp
+
+            File.open('menu.txt','a'){|file| file.puts("#{text};#{Time.now}")}
+
         end
 
-        def get_product_bycod
-        
+        def get_product_byid(product_id)
+
+            system "clear" 
+            product_exist=false
+            resultado=""
+
+            @@products.each do |product|
+
+                if product[:id]==product_id 
+
+                    resultado="Producto: '#{product[:name]}' Precio: $ #{product[:price]} Estado: #{@state[to_sym(product[:available])]}"
+                    product_exist=true
+            
+                end
+            
+            end
+            
+
+            puts "--------------------------------------------------\n"+
+            "              CONSULTAO DE PRODUCTOS\n"+
+            "--------------------------------------------------\n\n"
+
+            if product_exist
+                resultado
+            else
+                "El producto que buscas no existe."
+            end
+
         end
 
         def adjust_text(text, length)
@@ -72,10 +108,14 @@ module Orders
             str=="true" ? true : false
         end
 
+        def to_sym(bool)
+            bool ? :true : :false
+        end
     end
 
 end
 
-o1=Orders::RestaurantOrder.new
-o1.load_menu
-o1.show_menu
+# o1=Orders::RestaurantOrder.new
+# o1.load_menu
+# o1.show_menu
+# p o1.get_product_byid(1033)
