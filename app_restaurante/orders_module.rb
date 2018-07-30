@@ -1,121 +1,139 @@
+require 'pry'
 require 'fileutils'
+require_relative 'menu_module'
 
 module Orders
 
-    class RestaurantOrder 
+    class RestaurantOrder
 
-        @@products =[]
-        
-        attr_reader :state
+        @@orders=[]
+
+        include Menu
+
+        attr_reader :menu, :order
 
         def initialize
+            @menu=RestaurantMenu.new
+            @menu.load_menu
+            @order=[]
+        end
 
-            @state={true: "Disponible", false: "No disponible"}
-                    
-            if !File.file?('menu.txt')
+        def add_item
             
-                p "No se encontró un archivo de menú, inicializando..."
-                FileUtils.touch('menu.txt')
+            item_id=""
+            order_count=0
+            table_num=0
+            unavailable=0
+            order_cost=0
 
-            end
+            puts "\n Ingrese el número de la mesa para la orden:"                
+            table_num=item_id=gets.chomp.to_i
 
-        end
+            until item_id=="q" do
 
-        def load_menu
-
-            File.foreach('menu.txt') do |line|
-       
-                id, name, price, available = line.chomp.split(';')                
-                @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
-
-            end
-
-            puts "Menú importado correctamente...\n\n"
-
-        end
-
-        def show_menu
-
-            system "clear" 
-
-            puts "--------------------------------------------\n"+
-                 "              INICIO DEL MENU\n"+
-                 "--------------------------------------------\n\n"
-
-            puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
- 
-            File.foreach('menu.txt') do |line|
-       
-                id, name, price, available = line.chomp.split(';')
+                @menu.show_menu
                 
-                @@products.push({id: id.to_i, name: name, price: price.to_i, available: available == "true" })
-                puts "#{id}\t\t#{adjust_text(name, 30)}\t\t\t#{price}\t\t #{@state[available.to_sym]}\n\n"
+                puts "\n Ingrese el código del producto que desea añadir a la orden:"                
+                item_id=gets.chomp
+                
+                break if item_id=="q"
+                
+                order_element=@menu.get_product_byid(item_id.to_i)
+
+                    if order_element.length>0 && order_element[:available]
+                        @order.push(order_element)
+                        order_count+=1
+                        order_cost+=order_element[:price]
+                    else
+                        unavailable+=1
+                    end
 
             end
 
-            puts "--------------------------------------------\n"+
-                 "              FIN DEL MENU\n"+
-                 "--------------------------------------------\n"
-        
+            puts "Se añadieron #{order_count} elementos a esta orden por un valor de: $#{order_cost}"
+            puts "#{unavailable} elementos no existen o no están disponibles en el Menú."
+  
+            @@orders.push({id: Time.now, table: table_num, detail: @order})
+          
         end
 
-        def add_product
-
-            puts "Ingrese los datos del producto separados por (;)\n\n"
-            puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
-
-            text=gets.chomp
-
-            File.open('menu.txt','a'){|file| file.puts("#{text};#{Time.now}")}
-
-        end
-
-        def get_product_byid(product_id)
-
-            system "clear" 
-            product_exist=false
-            resultado=""
-
-            @@products.each do |product|
-
-                if product[:id]==product_id 
-
-                    resultado="Producto: '#{product[:name]}' Precio: $ #{product[:price]} Estado: #{@state[to_sym(product[:available])]}"
-                    product_exist=true
+        def self.table_total(table_num_usr)
             
-                end
-            
-            end
-            
+            total_money_tbl=0
+            table_num=table_num_usr
 
             puts "--------------------------------------------------\n"+
-            "              CONSULTAO DE PRODUCTOS\n"+
+            "              RESUMEN DE COMPRA\n"+
             "--------------------------------------------------\n\n"
 
-            if product_exist
-                resultado
-            else
-                "El producto que buscas no existe."
+            @@orders.each do |order|
+                
+                if order[:table]==table_num
+
+                    puts "\n\nHora: #{order[:id]} Mesa: #{order[:table]} Detalle:\n\n"
+                    
+                    product=order[:detail]
+
+                    product.each_with_index do |prod,index|
+                        puts "#{index+1}: #{prod[:name]} Precio: #{prod[:price]}"
+                        total_money_tbl+=prod[:price]
+                    end
+                    
+                end
+            end
+
+            puts "\n\nTotal a pagar: $#{total_money_tbl}"
+
+            total_money_tbl
+        end
+
+        def self.return_orders
+            return @@orders
+        end
+
+        def self.delete_order(table_num)
+        
+            @@orders.each_with_index do |order,index|
+                
+                if order[:table]==table_num.to_i
+
+                    #binding.pry
+                    @@orders.delete_at(index)
+                    
+                end
+
             end
 
         end
 
-        def adjust_text(text, length)
-            text.length < length ? text.ljust(length) : text[0...length]
-        end
+        def self.order_resume
 
-        def to_b(str)
-            str=="true" ? true : false
-        end
+            puts "--------------------------------------------------\n"+
+            "              RESUMEN DE PEDIDOS\n"+
+            "--------------------------------------------------\n\n"
 
-        def to_sym(bool)
-            bool ? :true : :false
+            @@orders.each do |order|
+                puts "\n\nHora: #{order[:id]} Mesa: #{order[:table]} Detalle:\n\n"
+                
+                product=order[:detail]
+
+                product.each_with_index do |prod,index|
+                    puts "#{index+1}: #{prod[:name]}"
+                end
+
+            end
+
         end
+        
     end
 
 end
 
-# o1=Orders::RestaurantOrder.new
-# o1.load_menu
-# o1.show_menu
-# p o1.get_product_byid(1033)
+# ro=Orders::RestaurantOrder.new
+# ro.add_item
+
+# ro1=Orders::RestaurantOrder.new
+# ro1.add_item
+
+# Orders::RestaurantOrder.order_resume
+# Orders::RestaurantOrder.table_total
