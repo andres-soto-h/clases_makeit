@@ -73,6 +73,8 @@ module Menu
         def get_product_byid(product_id)
 
             system "clear" 
+            puts "\n\nIngrese el código del producto a buscar:"
+
             product_exist=false
             resultado=""
             product_array=[]
