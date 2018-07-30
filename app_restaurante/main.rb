@@ -14,7 +14,7 @@ def interface
         puts "3. Resumen de los pagos."
         puts "4. Consultar facturación total."
         puts "5. Crear nuevo producto."
-        puts "6. Ingresar nuevo producto."
+        puts "6. Ver el menú."
         puts "7. Ver producto por código."
 
         option=gets.chomp
