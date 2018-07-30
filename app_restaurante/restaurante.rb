@@ -7,7 +7,8 @@ class Restaurant
 
     include Payments
     include Orders
-    
+    include RestaurantMenu
+
     attr_reader :ck, :menu_local
     
     def initialize
@@ -33,17 +34,14 @@ class Restaurant
     end
 
     def insert_menu_item
-        @menu_local=Menu::RestaurantMenu.new    
         @menu_local.add_product()
     end
 
     def get_menu_items
-        @menu_local=Menu::RestaurantMenu.new    
         @menu_local.show_menu
     end
 
     def get_item_byid
-        @menu_local=Menu::RestaurantMenu.new    
         puts "\n\nIngrese el código del producto a buscar:"
         product_id=gets.chomp.to_i
         @menu_local.get_product_byid(product_id)
