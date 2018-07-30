@@ -79,7 +79,7 @@ module Payments
         def total_payments
 
             puts "----------------------------------------------------------\n\n"
-            puts "La facturación total ha sido de: #{@@total_income}\n"
+            puts "La facturación total ha sido de: #{@@total_income}\n\n"
             puts "----------------------------------------------------------\n\n"
         
         end

@@ -7,7 +7,7 @@ def interface
     option=""
 
     until option=="q" do
-
+        
         puts "\n\nBienvenido al sistema POS. Para continuar ingrese una opción:\n\n"                
         puts "1. Ingresar una orden."
         puts "2. Pagar una orden."
