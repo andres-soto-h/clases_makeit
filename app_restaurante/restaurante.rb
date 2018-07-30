@@ -7,6 +7,7 @@ class Restaurant
 
     include Payments
     include Orders
+    include Orders
     
     attr_reader :ck
     
@@ -31,6 +32,11 @@ class Restaurant
 
     def total_income
         @ck.total_payments
+    end
+
+    def insert_menu_item
+        @menu_local=Menu::RestaurantMenu.new
+        @menu_local.add_product()
     end
 
 end
