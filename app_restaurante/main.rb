@@ -13,7 +13,9 @@ def interface
         puts "2. Pagar una orden."
         puts "3. Resumen de los pagos."
         puts "4. Consultar facturación total."
-        puts "5. Ingresar nuevo producto."
+        puts "5. Crear nuevo producto."
+        puts "6. Ingresar nuevo producto."
+        puts "7. Ver producto por código."
 
         option=gets.chomp
     
@@ -31,6 +33,10 @@ def interface
                 restaurante.total_income()
             when 5       
                 restaurante.insert_menu_item()
+            when 6       
+                restaurante.get_menu_items()
+            when 7       
+                restaurante.get_item_byid()
             else
                 puts "La opción ingresada no es valida.\n\n"
         end
