@@ -62,7 +62,7 @@ module Menu
         def add_product
 
             puts "Ingrese los datos del producto separados por (;)\n\n"
-            puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible?\n\n"
+            puts "Código\t\tNombre\t\t\t\t\t\tPrecio\t\t¿Disponible (true o false)?\n\n"
 
             text=gets.chomp
 
