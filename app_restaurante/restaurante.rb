@@ -7,11 +7,11 @@ class Restaurant
 
     include Payments
     include Orders
-    include Orders
     
     attr_reader :ck, :menu_local
     
     def initialize
+        @menu_local=Menu::RestaurantMenu.new 
         @ck=Payments::RestaurantCheckout.new         
     end
 
@@ -44,7 +44,8 @@ class Restaurant
 
     def get_item_byid
         @menu_local=Menu::RestaurantMenu.new    
-        product_id=gets.chom.to_i
+        puts "\n\nIngrese el código del producto a buscar:"
+        product_id=gets.chomp.to_i
         @menu_local.get_product_byid(product_id)
     end
 
