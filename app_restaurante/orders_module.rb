@@ -1,3 +1,4 @@
+require 'pry'
 require 'fileutils'
 require_relative 'menu_module'
 
@@ -7,10 +8,10 @@ module Orders
 
         include Menu
 
-        @@orders=[]
-        
         attr_reader :menu, :order
 
+        @@orders=[]
+    
         def initialize
             @menu=RestaurantMenu.new
             @menu.load_menu
@@ -31,7 +32,6 @@ module Orders
             until item_id=="q" do
 
                 @menu.show_menu
-
                 
                 puts "\n Ingrese el código del producto que desea añadir a la orden:"                
                 item_id=gets.chomp
@@ -85,6 +85,26 @@ module Orders
             puts "\n\nTotal a pagar: $#{total_money_tbl}"
 
             total_money_tbl
+        end
+
+        def self.return_orders
+            return @@orders
+        end
+
+        def self.delete_order(table_num)
+        
+
+            @@orders.each_with_index do |order,index|
+                
+                if order[:table]==table_num
+
+                    #binding.pry
+                    @@orders.delete_at((index))
+                    
+                end
+
+            end
+
         end
 
         def self.order_resume
