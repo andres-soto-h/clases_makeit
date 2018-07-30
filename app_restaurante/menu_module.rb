@@ -66,7 +66,7 @@ module Menu
 
             text=gets.chomp
 
-            File.open('data/menu.txt','a'){|file| file.puts("#{text};#{Time.now}")}
+            File.open('data/menu.txt','a'){|file| file.puts("\n#{text}")}
 
         end
 
