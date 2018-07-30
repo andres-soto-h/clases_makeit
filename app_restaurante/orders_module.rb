@@ -6,12 +6,12 @@ module Orders
 
     class RestaurantOrder
 
+        @@orders=[]
+
         include Menu
 
         attr_reader :menu, :order
 
-        @@orders=[]
-    
         def initialize
             @menu=RestaurantMenu.new
             @menu.load_menu
@@ -93,13 +93,12 @@ module Orders
 
         def self.delete_order(table_num)
         
-
             @@orders.each_with_index do |order,index|
                 
-                if order[:table]==table_num
+                if order[:table]==table_num.to_i
 
                     #binding.pry
-                    @@orders.delete_at((index))
+                    @@orders.delete_at(index)
                     
                 end
 

@@ -8,23 +8,22 @@ class Restaurant
     include Payments
     include Orders
     
-    attr_reader :ro, :ck
+    attr_reader :ck
     
     def initialize
         
-        @ro=Orders::RestaurantOrder.new
-        @ck=RestaurantCheckout.new
+        @ck=Payments::RestaurantCheckout.new
                      
     end
 
     def new_order
-        @ro.add_item
+        ro=Orders::RestaurantOrder.new
+        ro.add_item
     end
 
     def proced_checkout
         @ck.order_pay
     end
-
 
     def payment_resume
         @ck.get_payment
