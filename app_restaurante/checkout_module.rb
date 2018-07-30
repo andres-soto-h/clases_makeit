@@ -14,6 +14,14 @@ module Payments
 
         def initialize
 
+            #Inicializo la clase con dos nuevas ordenes para probar
+
+            # ro=Orders::RestaurantOrder.new
+            # ro.add_item
+            
+            # ro1=Orders::RestaurantOrder.new
+            # ro1.add_item
+                        
         end
 
         def order_pay
