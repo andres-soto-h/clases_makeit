@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'pry'
 require_relative 'orders_module'
 
 module Payments
@@ -6,7 +7,8 @@ module Payments
     class RestaurantCheckout
 
         include Orders
-
+        
+        @@orders=[]
         @@order_payments=[]
         @@total_income=0
 
@@ -17,43 +19,66 @@ module Payments
             ro=Orders::RestaurantOrder.new
             ro.add_item
             
-            ro1=Orders::RestaurantOrder.new
-            ro1.add_item
+            # ro1=Orders::RestaurantOrder.new
+            # ro1.add_item
                         
         end
 
         def order_pay
             
-            puts "Ingrese el número de la mesa que desea facturar:"
+            puts "--------------------------------------------------------\n"
+                 "-------------------INICIA PROCESO DE PAGO---------------\n"
+                 "--------------------------------------------------------\n"
+
+            puts "\n\nIngrese el número de la mesa que desea facturar:"
             table_num=gets.chomp.to_i
             total_payment=RestaurantOrder.table_total(table_num)
 
-            puts "¿Desea proceder con el pago? (SI) (NO)"
+            puts "\n\n¿Desea proceder con el pago? (s) (n)\n\n"
             ans=gets.chomp
             table_index=0
 
-            if ans=="SI"
+            if ans.upcase=="S"
 
-                @@total_income+=total_payment
+                @@order=RestaurantOrder.return_orders
 
-                RestaurantOrder.@@orders.each_with_index do |order,index|
-                
+                ##binding.pry
+
+                @@order.each do |order|
+                    
                     if order[:table]==table_num
     
-                        @@order_payments.push(RestaurantOrder.order)
-                        RestaurantOrder.@@orders.delete_at(index)
+                        @@order_payments.push({payment_id: Time.now, table: table_num, detail: order[:detail]})
                         
-                        puts @@order_payments
-                        puts RestaurantOrder.@@orders
-
                     end
-
                 end
-     
+    
+                RestaurantOrder.delete_order(table_num)
+                @@total_income+=total_payment
+            
             end
         end
+
+        def get_payment
+            
+            @@order_payments.each_with_index do |payment, index|
+
+                puts "------------------------------------------------\n\n"
+
+                puts "#{index+1}. Id del pago: #{payment[:payment_id]} Mesa: #{payment[:table]} Productos:\n\n"
+            
+                payment[:detail].each do |payment_detail|
+                    puts "#{payment_detail[:name]} --------- #{payment_detail[:price]}\n\n"
+                end
+
+                puts "------------------------------------------------\n\n"
+            
+            end
+        end
+
+        def total_payments
+            puts "La facturación total ha sido de: #{@@total_income}"
+        end
+
     end
 end
-
-p1=Payments.RestaurantCheckout.new
-p1.order_pay
