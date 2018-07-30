@@ -4,11 +4,12 @@ require_relative 'orders_module'
 
 module Payments
 
+    @@orders_aux=[]
+
     class RestaurantCheckout
 
         include Orders
         
-        @@orders=[]
         @@order_payments=[]
         @@total_income=0
 
@@ -36,17 +37,16 @@ module Payments
 
             puts "\n\n¿Desea proceder con el pago? (s) (n)\n\n"
             ans=gets.chomp
-            table_index=0
 
             if ans.upcase=="S"
 
-                @@order=RestaurantOrder.return_orders
+                @@orders_aux=RestaurantOrder.return_orders
 
                 ##binding.pry
 
-                @@order.each do |order|
+                @@orders_aux.each do |order|
                     
-                    if order[:table]==table_num
+                    if order[:table]==table_num.to_i
     
                         @@order_payments.push({payment_id: Time.now, table: table_num, detail: order[:detail]})
                         
