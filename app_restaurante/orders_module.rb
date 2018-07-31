@@ -35,8 +35,7 @@ module Orders
                     product.each_with_index do |prod,index|
                         puts "#{index+1}: #{prod[:name]} Precio: #{prod[:price]}"
                         total_money_tbl+=prod[:price]
-                    end
-                    
+                    end 
                 end
             end
 
