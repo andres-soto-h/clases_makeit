@@ -11,11 +11,10 @@ module Payments
                         
         end
 
-        def order_pay(ordenes)
-                ordenes.each do |order|    
+        def order_pay(ordenes, total_payment, table_num)
+            ordenes.each do |order|    
                 if order[:table]==table_num.to_i
                         @@order_payments.push({payment_id: Time.now, table: table_num, detail: order[:detail]})
-                    end
                 end
                 @@total_income+=total_payment
             end
