@@ -17,9 +17,12 @@ class Restaurant
     end
 
     def new_order(table, items)
-        ro=Orders::RestaurantOrder.new
         @order=[]
+        order_count=0
+        order_cost=0
 
+        ro=Orders::RestaurantOrder.new
+        
         items.each do |item|
         
             order_element=@menu_local.get_product_byid(item.to_i)
@@ -34,8 +37,10 @@ class Restaurant
 
         end
         
-        ro.add_item(@order)
-        
+        ro.add_item(table, @order)
+
+        puts "Se añadieron #{order_count} elementos a esta orden por un valor de: $#{order_cost}"
+         
         if unavailable>0
             puts "#{unavailable} productos no estaban disponibles."
         end
