@@ -24,7 +24,20 @@ def interface
         case option.to_i
 
             when 1
-                restaurante.new_order()
+
+                puts "\n Ingrese el número de la mesa para la orden:"                
+                table_num=gets.chomp.to_i
+                item_id=0
+                items=[]
+
+                until item_id=="q" do
+                    puts "\n Ingrese el código del producto que desea añadir a la orden:"                
+                    item_id=gets.chomp
+                    items.push(item_id)
+                end
+
+                restaurante.new_order(table_num, items)
+
             when 2
                 restaurante.proced_checkout()
             when 3
