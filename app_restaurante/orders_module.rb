@@ -6,9 +6,7 @@ module Orders
 
         @@orders=[]
 
-        include Menu
-
-        attr_reader :menu, :order
+        attr_reader :order
 
         def initialize
             @order=[]
