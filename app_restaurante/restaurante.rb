@@ -2,30 +2,30 @@ require_relative 'checkout_module'
 require_relative 'orders_module'
 require_relative 'menu_module'
 
-
 class Restaurant
 
     include Payments
     include Orders
-    include RestaurantMenu
+    include Menu
 
-    attr_reader :ck, :menu_local
+    attr_reader :ck, :menu_local, :ro, :order 
     
     def initialize
         @menu_local=Menu::RestaurantMenu.new 
-        @ck=Payments::RestaurantCheckout.new         
+        @ck=Payments::RestaurantCheckout.new  
+        @order=[]       
     end
 
-    def new_order(table, items)
-        @order=[]
+    def new_order(table, items) 
         order_count=0
         order_cost=0
+        unavailable=0
+        item_id=0
+        @ro=Orders::RestaurantOrder.new
 
-        ro=Orders::RestaurantOrder.new
-        
         items.each do |item|
         
-            order_element=@menu_local.get_product_byid(item.to_i)
+            order_element=@menu_local.get_product_byid(item)
             
             if order_element.length>0 && order_element[:available]
                 @order.push(order_element)
@@ -37,7 +37,7 @@ class Restaurant
 
         end
         
-        ro.add_item(table, @order)
+        @ro.add_item(table, @order)
 
         puts "Se añadieron #{order_count} elementos a esta orden por un valor de: $#{order_cost}"
          
@@ -46,8 +46,18 @@ class Restaurant
         end
     end
 
-    def proced_checkout
-        @ck.order_pay
+    def proced_checkout(table_num, ans)
+
+        orders_aux=[]
+
+        if ans.upcase=="S"
+            #binding.pry
+            total_payment=Orders::RestaurantOrder.table_total(table_num)
+            orders_aux=Orders::RestaurantOrder.return_orders
+            @ck.order_pay(orders_aux,total_payment, table_num)
+            Orders::RestaurantOrder.delete_order(table_num)
+        end
+        
     end
 
     def payment_resume
