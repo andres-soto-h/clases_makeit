@@ -16,9 +16,29 @@ class Restaurant
         @ck=Payments::RestaurantCheckout.new         
     end
 
-    def new_order
+    def new_order(table, items)
         ro=Orders::RestaurantOrder.new
-        ro.add_item
+        @order=[]
+
+        items.each do |item|
+        
+            order_element=@menu_local.get_product_byid(item.to_i)
+            
+            if order_element.length>0 && order_element[:available]
+                @order.push(order_element)
+                order_count+=1
+                order_cost+=order_element[:price]
+            else
+                unavailable+=1
+            end
+
+        end
+        
+        ro.add_item(@order)
+        
+        if unavailable>0
+            puts "#{unavailable} productos no estaban disponibles."
+        end
     end
 
     def proced_checkout
