@@ -121,7 +121,3 @@ module Menu
 
 end
 
-# o1=Menu::RestaurantMenu.new
-# o1.load_menu
-# o1.show_menu
-# o1.get_product_byid(1033)
