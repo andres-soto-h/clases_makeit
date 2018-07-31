@@ -1,4 +1,3 @@
-require 'pry'
 require 'fileutils'
 require_relative 'menu_module'
 
@@ -96,10 +95,7 @@ module Orders
             @@orders.each_with_index do |order,index|
                 
                 if order[:table]==table_num.to_i
-
-                    #binding.pry
                     @@orders.delete_at(index)
-                    
                 end
 
             end
@@ -128,12 +124,3 @@ module Orders
     end
 
 end
-
-# ro=Orders::RestaurantOrder.new
-# ro.add_item
-
-# ro1=Orders::RestaurantOrder.new
-# ro1.add_item
-
-# Orders::RestaurantOrder.order_resume
-# Orders::RestaurantOrder.table_total
