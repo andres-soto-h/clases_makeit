@@ -39,7 +39,24 @@ def interface
                 restaurante.new_order(table_num, items)
 
             when 2
-                restaurante.proced_checkout()
+
+                puts "--------------------------------------------------------\n"
+                "-------------------INICIA PROCESO DE PAGO---------------\n"
+                "--------------------------------------------------------\n"
+
+                @@orders_aux=[]
+                puts "\n\nIngrese el número de la mesa que desea facturar:"
+                table_num=gets.chomp.to_i
+                total_payment=RestaurantOrder.table_total(table_num)
+                puts "\n\n¿Desea proceder con el pago? (s) (n)\n\n"
+                ans=gets.chomp
+
+                if ans.upcase=="S"
+                    @@orders_aux=RestaurantOrder.return_orders
+                    restaurante.proced_checkout(orders_aux)
+                    RestaurantOrder.delete_order(table_num)
+                end
+
             when 3
                 restaurante.payment_resume()
             when 4        
