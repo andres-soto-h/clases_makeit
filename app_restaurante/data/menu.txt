@@ -3,3 +3,4 @@
 1033;pasta carbonara;14600;false
 12222;sopa casera;7400;true
 10292;jugo natural;3200;true
+1234;avena caleña;3500;true
