@@ -1,6 +1,5 @@
-require 'sinatra'
-# require 'bundler/setup'
-# Bundler.require(:defualt)
+require 'bundler/setup'
+Bundler.require(:default)
 
 get '/' do
     @name='Andres Soto'
