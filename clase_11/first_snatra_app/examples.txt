@@ -1,0 +1,5 @@
+response=HTTParty.get('http://localhost:4567/make-a-get', :headers => {"Content-Type" => 'application/json'})
+response=HTTParty.post('http://localhost:4567/make-a-post', :headers => {"Content-Type" => 'application/json'})
+response=HTTParty.delete('http://localhost:4567/make-a-delete', :headers => {"Content-Type" => 'application/json'})
+
+
