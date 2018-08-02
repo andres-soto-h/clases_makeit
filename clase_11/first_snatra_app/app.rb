@@ -18,6 +18,19 @@ Bundler.require(:default)
 #     erb :contact
 # end
 
+get '/area/:figura' do
+    case params[:figura]
+        when "triangle"
+            puts "El área de este #{params[:figura]} es: #{(params[:a].to_i*params[:b].to_i)/2}"
+        when "square"
+            puts "El área de este #{params[:figura]} es: #{params[:a].to_i**2}"
+        when "rectangle"
+            puts "El área de este #{params[:figura]} es: #{params[:a].to_i*params[:b].to_i}"
+    end 
+end
+
+
+
 
 # get '/products' do
 #     @products=['web design','backend development']
