@@ -43,20 +43,29 @@ end
 # end
 
 
-get '/make-a-get' do
-    [200, {"Content-Type" => "Text/html"}, "Esto es un get"]
+# get '/make-a-get' do
+#     [200, {"Content-Type" => "Text/html"}, "Esto es un get"]
+# end
+
+# post '/make-a-post' do
+#     [200, {"Content-Type" => "Text/html"}, "Esto es un post"]
+# end
+
+# put '/make-a-put' do
+#     [200, {"Content-Type" => "Text/html"}, "Esto es un put"]
+# end
+
+# delete '/make-a-delete' do
+#     [200, {"Content-Type" => "Text/html"}, "Esto es un delete"]
+# end
+
+
+get '/form' do
+    erb:form
 end
 
-post '/make-a-post' do
-    [200, {"Content-Type" => "Text/html"}, "Esto es un post"]
+post '/hello-from-form' do
+    binding.pry
+    name=params[:name]
+    "Hola #{name} te saludo desde el formulario."
 end
-
-put '/make-a-put' do
-    [200, {"Content-Type" => "Text/html"}, "Esto es un put"]
-end
-
-delete '/make-a-delete' do
-    [200, {"Content-Type" => "Text/html"}, "Esto es un delete"]
-end
-
-
