@@ -21,11 +21,11 @@ Bundler.require(:default)
 get '/area/:figura' do
     case params[:figura]
         when "triangle"
-            puts "El área de este #{params[:figura]} es: #{(params[:a].to_i*params[:b].to_i)/2}"
+            "El área de este #{params[:figura]} es: #{(params[:a].to_i*params[:b].to_i)/2}"
         when "square"
-            puts "El área de este #{params[:figura]} es: #{params[:a].to_i**2}"
+            "El área de este #{params[:figura]} es: #{params[:a].to_i**2}"
         when "rectangle"
-            puts "El área de este #{params[:figura]} es: #{params[:a].to_i*params[:b].to_i}"
+            "El área de este #{params[:figura]} es: #{params[:a].to_i*params[:b].to_i}"
     end 
 end
 
