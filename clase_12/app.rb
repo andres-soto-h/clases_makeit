@@ -6,7 +6,7 @@ get '/' do
     #binding.pry
     if request.cookies["email"] && request.cookies["password"]
         @name="Andrés Soto"
-        erb :index
+        erb :home
     else
         #binding.pry
         redirect '/login'
@@ -20,14 +20,17 @@ end
 post '/login' do
     response.set_cookie('email',params[:email])
     response.set_cookie('password',params[:password])
-    redirect '/index'
+    redirect '/home'
 end
 
-get '/registro' do
+post '/logout' do
+    session.clear
+    redirect 'login'
+end
+
+get '/registro' do    
     erb :form
 end
-
-
 
 
 post '/register-results' do
@@ -41,19 +44,37 @@ post '/register-results' do
 end
 
 get '/home' do
-    @saluda='Welcome to my first app'
-    erb :home
+    if request.cookies["email"] && request.cookies["password"]
+        @saluda='Welcome to my first app'
+        @name="Andrés Soto"
+        erb :home
+    else
+        #binding.pry
+        redirect '/login'
+    end
 end
 
 get '/contact' do
-    @correo='andres.soto.h@outlook.com'
-    @telefono='3134123712'
-    erb :contact
+
+    if request.cookies["email"] && request.cookies["password"]
+        @correo='andres.soto.h@outlook.com'
+        @telefono='3134123712'
+        erb :contact
+    else
+        #binding.pry
+        redirect '/login'
+    end
+
 end
 
 
 get '/products' do
-    @products=['web design','backend development']
-    erb :products
+    if request.cookies["email"] && request.cookies["password"]
+        @products=['web design','backend development']
+        erb :products
+    else
+        #binding.pry
+        redirect '/login'
+    end
 end
 
