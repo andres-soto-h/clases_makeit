@@ -1,71 +1,59 @@
 require 'bundler/setup'
 Bundler.require(:default)
 
-# get '/' do
-#     @name='Andres Soto'
-#     erb :index
-# end
 
-# get '/home' do
-#     @saluda='Welcome to my first app'
-#     erb :home
-# end
+get '/' do
+    #binding.pry
+    if request.cookies["email"] && request.cookies["password"]
+        @name="Andrés Soto"
+        erb :index
+    else
+        #binding.pry
+        redirect '/login'
+    end
+end
 
+get '/login' do
+    erb :login
+end
 
-# get '/contact' do
-#     @correo='andres.soto.h@outlook.com'
-#     @telefono='3134123712'
-#     erb :contact
-# end
+post '/login' do
+    response.set_cookie('email',params[:email])
+    response.set_cookie('password',params[:password])
+    redirect '/index'
+end
 
-get '/area/:figura' do
-    case params[:figura]
-        when "triangle"
-            "El área de este #{params[:figura]} es: #{(params[:a].to_i*params[:b].to_i)/2}"
-        when "square"
-            "El área de este #{params[:figura]} es: #{params[:a].to_i**2}"
-        when "rectangle"
-            "El área de este #{params[:figura]} es: #{params[:a].to_i*params[:b].to_i}"
-    end 
+get '/registro' do
+    erb :form
 end
 
 
 
 
-# get '/products' do
-#     @products=['web design','backend development']
-#     erb :products
-# end
-
-
-# get '/saludo' do
-#     "Hola #{params[:name]} #{params[:tipo]}"
-# end
-
-
-# get '/make-a-get' do
-#     [200, {"Content-Type" => "Text/html"}, "Esto es un get"]
-# end
-
-# post '/make-a-post' do
-#     [200, {"Content-Type" => "Text/html"}, "Esto es un post"]
-# end
-
-# put '/make-a-put' do
-#     [200, {"Content-Type" => "Text/html"}, "Esto es un put"]
-# end
-
-# delete '/make-a-delete' do
-#     [200, {"Content-Type" => "Text/html"}, "Esto es un delete"]
-# end
-
-
-get '/form' do
-    erb:form
+post '/register-results' do
+    @name=params[:name]
+    @last_name=params[:last_name]
+    @address=params[:address]
+    @email=params[:email]
+    @age=params[:age]
+    @sex=params[:sex]
+    erb :form_data
 end
 
-post '/hello-from-form' do
-    binding.pry
-    name=params[:name]
-    "Hola #{name} te saludo desde el formulario."
+get '/home' do
+    @saluda='Welcome to my first app'
+    erb :home
 end
+
+get '/contact' do
+    @correo='andres.soto.h@outlook.com'
+    @telefono='3134123712'
+    erb :contact
+end
+
+
+get '/products' do
+    @products=['web design','backend development']
+    erb :products
+end
+
