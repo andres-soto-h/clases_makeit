@@ -4,11 +4,21 @@ require './models.rb'
 
 set :database, 'sqlite3:myblogdb.sqlite3'
 
+helpers do
+  def bar(name)
+    "#{name}bar"
+  end
+end
+
+get '/:vendor' do
+  bar(params['vendor'])
+end
+
 get '/' do
   if request.cookies['email'] && request.cookies['password']
     @posts = Post.all
     @name = 'Andrés Soto'
-    erb :home
+    erb :home, layout: :home_layout
   else
     redirect '/login'
   end
@@ -72,7 +82,7 @@ get '/home' do
     @posts = Post.all
     @saluda = 'Welcome to my first app'
     @name = 'Andrés Soto'
-    erb :home
+    erb :home, layout: :home_layout
   else
     # binding.pry
     redirect '/login'
