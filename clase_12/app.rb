@@ -1,10 +1,14 @@
 require 'bundler/setup'
 Bundler.require(:default)
+require "./models.rb"
 
+
+set :database, "sqlite3:myblogdb.sqlite3"
 
 get '/' do
     #binding.pry
     if request.cookies["email"] && request.cookies["password"]
+        @posts = Post.all
         @name="Andrés Soto"
         erb :home
     else
@@ -13,6 +17,11 @@ get '/' do
     end
 end
 
+post '/post' do
+    @post = Post.create(title: params[:title], body: params[:body])
+    redirect '/'
+end
+  
 get '/login' do
     erb :login
 end
@@ -24,7 +33,7 @@ post '/login' do
 end
 
 post '/logout' do
-    session.clear
+    response.cookies.clear
     redirect 'login'
 end
 
