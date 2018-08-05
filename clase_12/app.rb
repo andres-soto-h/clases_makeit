@@ -15,11 +15,32 @@ end
 
 get '/post/:id' do
   begin
+<<<<<<< HEAD
     @post = Post.find(params[:id])
     erb :post_page
   rescue StandardError => e
     erb :error_page
   end
+end
+
+put '/post/:id' do
+  @post = Post.find(params[:id])
+  @post.update(title: params[:title], body: params[:body])
+  @post.save
+  redirect '/post/' + params[:id]
+end
+
+delete '/post/:id' do
+  @post = Post.find(params[:id])
+  @post.destroy
+  redirect '/blog'
+=======
+        @post = Post.find(params[:id])
+        erb :post_page
+    rescue ActiveRecord::RecordNotFound => e
+        erb :error_page
+    end
+>>>>>>> d5081b40aec528b6462fec5212f681fc97e8b14d
 end
 
 put '/post/:id' do
