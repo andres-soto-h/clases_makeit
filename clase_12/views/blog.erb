@@ -1,23 +1,27 @@
-  <% if @posts %>
+<% if @posts %>
 
-    <% @posts.each do |post| %>
+  <% @posts.each do |post| %>
 
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
-            <div class="card-body">
-              <h2 class="card-title">        <a href="/post/<%= post.id %>">
-          <%= post.title %>
-        </a></h2>
-              <p class="card-text">  <%= post.body %> </p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Creado en <%= post.created_at %> por
-              <a href="#">Andrés Soto</a>
-            </div>
-          </div>
+    <!-- Blog Post -->
+    <div class="card mb-4">
+      <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="/post/<%= post.id %>">
+            <%= post.title %>
+          </a>
+        </h2>
+        <p class="card-text">
+          <%= post.body[0..200] %>... </p>
+        <a href="/post/<%= post.id %>" class="btn btn-primary">Leer más &rarr;</a>
+      </div>
+      <div class="card-footer text-muted">
+        Creado en
+        <%= post.created_at %> por
+          <a href="#">Andrés Soto</a>
+      </div>
+    </div>
 
-  <% end %>
+    <% end %>
 
 <% end %>

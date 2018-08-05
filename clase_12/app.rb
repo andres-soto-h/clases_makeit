@@ -15,7 +15,6 @@ end
 
 get '/post/:id' do
   begin
-<<<<<<< HEAD
     @post = Post.find(params[:id])
     erb :post_page
   rescue StandardError => e
@@ -34,13 +33,6 @@ delete '/post/:id' do
   @post = Post.find(params[:id])
   @post.destroy
   redirect '/blog'
-=======
-        @post = Post.find(params[:id])
-        erb :post_page
-    rescue ActiveRecord::RecordNotFound => e
-        erb :error_page
-    end
->>>>>>> d5081b40aec528b6462fec5212f681fc97e8b14d
 end
 
 put '/post/:id' do
@@ -94,24 +86,24 @@ get '/home' do
   end
 end
 
-get '/contact' do
-  if request.cookies['email'] && request.cookies['password']
-    @correo = 'andres.soto.h@outlook.com'
-    @telefono = '3134123712'
-    erb :contact
-  else
-    redirect '/login'
-  end
-end
+# get '/contact' do
+#   if request.cookies['email'] && request.cookies['password']
+#     @correo = 'andres.soto.h@outlook.com'
+#     @telefono = '3134123712'
+#     erb :contact
+#   else
+#     redirect '/login'
+#   end
+# end
 
-get '/products' do
-  if request.cookies['email'] && request.cookies['password']
-    @products = ['web design', 'backend development']
-    erb :products
-  else
-    redirect '/login'
-  end
-end
+# get '/products' do
+#   if request.cookies['email'] && request.cookies['password']
+#     @products = ['web design', 'backend development']
+#     erb :products
+#   else
+#     redirect '/login'
+#   end
+# end
 
 get '/blog' do
   if request.cookies['email'] && request.cookies['password']
