@@ -4,34 +4,22 @@ require './models.rb'
 
 set :database, 'sqlite3:myblogdb.sqlite3'
 
-helpers do
-  def bar(name)
-    "#{name}bar"
-  end
-end
-
-get '/:vendor' do
-  bar(params['vendor'])
-end
-
 get '/' do
-  if request.cookies['email'] && request.cookies['password']
-    @posts = Post.all
-    @name = 'Andrés Soto'
-    erb :home, layout: :home_layout
-  else
-    redirect '/login'
-  end
+  erb :home, layout: :home_layout
 end
 
 post '/post' do
   @post = Post.create(title: params[:title], body: params[:body])
-  redirect '/'
+  redirect '/blog'
 end
 
 get '/post/:id' do
-  @post = Post.find(params[:id])
-  erb :post_page
+  begin
+        @post = Post.find(params[:id])
+        erb :post_page
+    rescue ActiveRecord::RecordNotFound => e
+        erb :error_page
+    end
 end
 
 put '/post/:id' do
@@ -44,7 +32,7 @@ end
 delete '/post/:id' do
   @post = Post.find(params[:id])
   @post.destroy
-  redirect '/'
+  redirect '/blog'
 end
 
 get '/login' do
@@ -79,12 +67,8 @@ end
 
 get '/home' do
   if request.cookies['email'] && request.cookies['password']
-    @posts = Post.all
-    @saluda = 'Welcome to my first app'
-    @name = 'Andrés Soto'
     erb :home, layout: :home_layout
   else
-    # binding.pry
     redirect '/login'
   end
 end
@@ -103,6 +87,16 @@ get '/products' do
   if request.cookies['email'] && request.cookies['password']
     @products = ['web design', 'backend development']
     erb :products
+  else
+    redirect '/login'
+  end
+end
+
+get '/blog' do
+  if request.cookies['email'] && request.cookies['password']
+    @posts = Post.all
+    @name = 'Andrés Soto'
+    erb :blog, layout: :blog_layout
   else
     redirect '/login'
   end
