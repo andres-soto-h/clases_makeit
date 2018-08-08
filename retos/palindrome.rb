@@ -1,20 +1,11 @@
-class palindrome < String
-    self.palindrome?(phrase)
-    phrase_new=""
-    reverse=""    
-        phrase.split(/\W/).each do |word|
-            phrase_new+=word
-        end
-        
-        reverse=phrase_new.reverse
+class String
+  def palindrome?
+    phrase_new = ''
+    reverse = ''
+    split(/\W/).each { |word| phrase_new += word }
+    phrase_new.reverse == phrase_new
+  end
+end
 
-        if reverse==phrase_new
-            true
-        else
-            false
-        end
-    end
-end 
-
-"anita lava la tina".palindrome? # => true
-"hora de irse".palindrome? # => false
+puts 'anita lava la tina'.palindrome? # => true
+puts 'hora de irse'.palindrome? # => false
