@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>JS DOM</title>
+        <script>
+        btn_disable = function (elm){
+            if (elm.value==""){
+                document.getElementById("bt-submit").disabled = true;
+                document.getElementById("bt-submit").disabled = false;
+            }else{
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h2>HTML Forms</h2>
+    <form action="/action_page.php">
+        First name:<br>
+        <input type="text" id="text_name" name="firstname" value="Mickey" onblur="btn_disable(this)">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname" value="Mouse" onblur="btn_disable(this)">
+        <br><br>
+        <input type="submit" id="bt-submit" value="Submit">
+    </form>
+</body>
+
+</html>
