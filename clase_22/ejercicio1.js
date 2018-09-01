@@ -106,13 +106,13 @@ Ecommerce = function (inventory) {
     }
     this.findCategory = function (category) {
 
-        var products = this.inventory.filter(product => product.category === category);
-        return products;
+        return this.inventory.filter(product => product.category === category);
+       
     }
     this.inventorySum = function () {
 
-        var sum = this.inventory.reduce((total, item) => total + (item.price * item.stock), 0);
-        return sum;
+        return this.inventory.reduce((total, item) => total + (item.price * item.stock), 0);
+        
     }
 }
 
