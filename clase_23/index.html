@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>JS DOM</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+
+    <style>
+        .mouse-events {
+            border: 1px black solid;
+            padding: 50px;
+            margin: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <p class="paint">Hola soy un ejemplo</p>
+    <button id="add">Add Element</button>
+    <div class="elements-added"></div>
+
+    <div class="wrapper">
+        <p class="remove">parrafo1</p>
+        <p class="remove">parrafo2</p>
+        <p class="remove">parrafo3</p>
+        <p class="remove">parrafo4</p>
+    </div>
+
+    <button class="show">Click Me</button>
+    <div class="element-toogle">Element to show</div>
+
+    <div class="mouse-events">Mouse Events Square</div>
+
+    <script>
+        $(document).ready(function () {
+
+            jQuery('.paint').on('click', function () {
+                // debugger;
+                $(this).css('background', 'yellow');
+            });
+
+            $('#add').on('click', function () {
+                $('.wrapper').append(
+                    `<p class="remove">parrafo new ${new Date().toLocaleTimeString()} </p>`);
+            });
+
+            $(document).on('click', '.wrapper p', function () {
+                $(this).css('color', 'blue');
+            });
+
+            $(document).on('dblclick', '.remove', function () {
+                $(this).remove();
+            });
+
+            $('.show').on('click', function () {
+                $('.element-toogle').toggle();
+            });
+
+            $('.mouse-events').on('mouseenter', function () {
+                console.log('mouseenter done')
+            });
+
+            $('.mouse-events').on('mouseleave', function () {
+                console.log('mouseleave done')
+            });
+
+            $('.mouse-events').on('mouseover', function () {
+                console.log('mouseover done')
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
