@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lista de productos</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-md-4 col-md-offset-1">
+
+                <h1>Crear nuevo producto</h1>
+
+                <form action="/" id="product_form">
+                    <div class="form-group">
+                        <label for="title">Título:</label>
+                        <input type="text" name="title" class="form-control" id="title" value="" placeholder="Ingrese un título">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descripción:</label>
+                        <input type="text" name="description" class="form-control" id="description" value=""
+                            placeholder="Ingrese una descripción">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="price">Precio:</label>
+                        <input type="number" name="price" class="form-control" id="price" value="" placeholder="Ingrese una precio">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary " value="Guardar">
+                    </div>
+
+                </form>
+
+                <button class="btn btn-success" onclick="loadProd()">Consultar Todos</button>
+               
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <br>
+            <br>
+
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="products-wrapper">
+
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        $('form').submit(function (e) {
+
+            e.preventDefault();
+
+            var product = JSON.stringify({
+                title: this.elements.title.value,
+                product: $("form input[name='description']").val(),
+                price: parseInt($("form input[name='price']").val())
+            });
+
+            $.ajax({
+                method: "POST",
+                url: "https:test-bootcamp-1524773485979.firebaseio.com/andres_soto/products.json",
+                data: product,
+                contentType: "application/json"
+            }).done(function () {
+
+                $.ajax({
+                    method: "GET",
+                    url: "https:test-bootcamp-1524773485979.firebaseio.com/andres_soto/products.json"
+                }).done(function (data) {
+
+                    for (var key in data) {
+
+                        if (data[key].title.length > 0 && data[key].price !== 'undefined') {
+
+                            $('.products-wrapper>table').append(
+                                `<tr><td>${data[key].title}</td><td>${data[key].product}</td><td>${data[key].price}</td></tr>`
+                            );
+
+                        }
+
+                    }
+
+                });
+
+            }).fail({
+
+            })
+
+        });
+
+        function loadProd() {
+
+            $('.products-wrapper').html('')
+            $('.products-wrapper').append(
+                '<table class="table table-striped"><tr><th>Titulo</th><th>Descripción</th><th>Precio</th></tr></table>'
+            );
+
+            $.ajax({
+                method: "GET",
+                url: "https:test-bootcamp-1524773485979.firebaseio.com/andres_soto/products.json"
+            }).done(function (data) {
+
+                for (var key in data) {
+
+                    if (data[key].title.length > 0 && data[key].price !== 'undefined') {
+
+                        $('.products-wrapper>table').append(
+                            `<tr><td>${data[key].title}</td><td>${data[key].product}</td><td>${data[key].price}</td></tr>`
+                        );
+                    }
+                }
+
+            });
+
+        };
+        
+    </script>
+
+</body>
+
+</html>
