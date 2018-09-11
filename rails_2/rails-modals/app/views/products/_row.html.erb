@@ -1,0 +1,7 @@
+<tr id="<%= product.id%>">
+<td><%= product.name%></td>
+<td><%= number_to_currency(product.price, precision:2)%></td>
+<td><%= link_to "Editar", edit_product_path(product), class:"btn btn-default", remote: true%>
+<%= link_to 'Borrar <i class="far fa-trash-alt"></i>'.html_safe, product_path(product), class:"btn btn-danger delete-btn", method: :delete, remote: true%>
+</td>
+<tr>
