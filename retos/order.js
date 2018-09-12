@@ -1,28 +1,22 @@
-function order(arr) {
-
-    var arr2=[];
-    var a = 0;
-    var b = 0;
-    var mayor = 0;
-
-    for (var i = 2; i < arr.length; i++) {
-
-        for (var j = 2; j < arr.length; i++){
-
-            a = arr[j];
-            b = arr[j + 1];
-
-            if (b > a) {
-                mayor = b;
+function order(arr, reverse = false) {
+    var a = 0; b = 0;
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < arr.length; j++) {
+            if (arr[j + 1] > arr[j]) {
+                var b = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = b;
             }
-
         }
-
-        arr2.push(mayor)
-
     }
-
-    return arr2
+    return reverse ? arr : arr.reverse()
 }
 
-console.log(order([2, 3, 7, 1, 5, 4]))
+function order2(arr, reverse) {
+    return arr.sort(function(a, b) {
+      return reverse ? b - a : a - b
+    });
+  }
+
+console.log(order([2, 3, 7, 1, 5, 4],true))
+console.log(order2([2, 3, 7, 1, 5, 4]))
