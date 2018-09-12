@@ -2,151 +2,156 @@ require 'pry'
 require_relative 'modulo_gadgets'
 
 class Telefono
+  attr_accessor :calling, :contact, :phone
 
-    attr_accessor :calling, :contact, :phone
-    
-    @@devices=0
-    @@total_time=0
+  @@devices = 0
+  @@total_time = 0
 
-    def initialize
+  def initialize
+    @calling = false
+    @call_log = []
+    @call_ini = 0
+    @call_end = 0
+    @@devices += 1
+    @directory = {}
+    @directory_name = '../clase_4/directorio.csv'
+    import_directory(@directory_name)
+  end
 
-        @calling=false
-        @call_log=[]
-        @call_ini=0
-        @call_end=0
-        @@devices+=1
-        @directory={}
-    
+  def self.get_devices
+    p "Se han creado #{@@devices} instancias de la clase Telefono"
+  end
+
+  def self.get_all_times
+    p "La duracion de todas las llamadas realizadas es de #{@@total_time}"
+  end
+
+  ##################  METODOS DE LA CLASE TELEFONO #####################
+
+  def import_directory(file_name)
+    n_contacts = 0
+
+    file_as_array = IO.readlines(file_name)
+
+    file_as_array.each do |contact|
+      dato_split = contact.split(';')
+      @directory[dato_split[0]] = dato_split[1]
+      n_contacts += 1
     end
 
-    def self.get_devices
-        p "Se han creado #{@@devices} instancias de la clase Telefono" 
+    # puts "--------------------------------------------------------------\n" \
+    #      "Se importaron #{n_contacts} contactos desde el directorio local.\n" \
+    #      "--------------------------------------------------------------\n"
+  end
+
+  def list_contacts
+    @directory.each_with_index do |(key, value), index|
+      p "#{index}: Usuario:#{key} Teléfono: #{value.chop}"
     end
+  end
 
-    def self.get_all_times
-        p "La duracion de todas las llamadas realizadas es de #{@@total_time}" 
+  def create_contact(user_name, phone)
+    if !@directory.key?(user_name)
+      @directory[user_name] = phone
+      File.open(@directory_name, 'a') { |file| file.puts("#{user_name};#{phone}") }
+    else
+      puts "Ya existe un usuario llamado: #{user_name} en el directorio.\n"
     end
+  end
 
-    ##################  METODOS DE LA CLASE TELEFONO #####################
+  def delete_contact(phone)
+    file_as_array = IO.readlines(@directory_name)
+    phones = []
 
-    def import_directory(file_name)
+    unless file_as_array.empty?
+      file_as_array.each do |contact|
+        dato_split = contact.split(';')
+        phones.push(dato_split[1].chop)
+      end
 
-        n_contacts=0
-    
-        file_as_array=IO.readlines(file_name)
-    
-        
+      if is_numeric?(phone)
 
-        file_as_array.each do |contact|
-            
-            dato_split=contact.split(";")
-            
-            #binding.pry
-            
-            @directory[dato_split[0]]=dato_split[1]
-            n_contacts+=1
-    
-        end
-    
-        puts "--------------------------------------------------------------\n"+ 
-        "Se importaron #{n_contacts} contactos desde el directorio local.\n"+
-        "--------------------------------------------------------------\n"
-    end
-    
-    def list_contacts(directory_name)
-        directory_name.each_with_index do |(key,value),index|
-            p "#{index}: Usuario:#{key} Teléfono: #{value.chop}"
-        end
-    end
-    
-    def create_contact(user_name,phone,directory_name,file_name)
-        if !directory_name.has_key?(user_name)
-            
-            directory_name[user_name]=phone
-            File.open(file_name,'a'){|file| file.puts("#{user_name};#{phone}")}
-        
-        else
-            puts "Ya existe un usuario llamado: #{user_name} en el directorio.\n"
-        end
-    end
-    
-    def list_user_phone(user_name,directory_name)
-        if directory_name.has_key?(user_name)
-            "#{directory_name[user_name]}"
-        else
-            "No existe\n"
-        end
-    end
-    
-    def call_from_dir
-        p "Ingrese un nombre para buscar:"
-        user=gets.chomp
-        ans=list_user_phone(user,@directory).chop
+        ans = phones.include?(phone) ? phones.index(phone) : -1
 
-        #binding.pry
+        ans != -1 ? file_as_array.delete_at(ans) : 'No existe un contacto con ese teléfono'
 
-        if ans!="No existe"
-            call(user,ans)
-        else
-            p "No se encontro el contacto en el directorio."
-        end
+        if !file_as_array.empty?
+          File.open(@directory_name, 'w') { |file| file.write('') }
 
-    end
-
-    def call(contact,phone)
-        
-        if !@calling
-
-            @call_end=0
-
-            @call_ini=0
-
-            @calling=true
-    
-            @contact=contact
-            
-            @phone=phone
-
-            @call_ini=Time.now.to_f
+          file_as_array.each do |line|
+            File.open(@directory_name, 'a') { |file| file.puts(line.chop.to_s) }
+          end
 
         else
-            p "El teléfono está ocupado."
+          File.open(@directory_name, 'w') { |file| file.write('') }
         end
 
-    end
-
-    def show_call_info
-
-        @calling ? "Llamada con #{@contact} Tel: #{@phone} en curso..." : "No hay llamadas en curso."
-
-    end
-
-    def end_call
-
-        if @calling
-
-            @calling=false    
-            
-            @call_end=Time.now.to_f
-
-            @call_dur= (@call_end-@call_ini)
-
-            @@total_time+=@call_dur
-
-            @current_call={contact: @contact, phone:@phone, call_dur: @call_dur}
-
-            @call_log.push(@current_call)
-        else
-            p "El teléfono no está en uso."
-        end
-    end
-
-    def call_history
-        p @call_log
-    end
-    
+      else
+        p 'Ingrese un valor númerico válido.'
+      end
+  end
 end
 
+  def is_numeric?(obj)
+    obj.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/).nil? ? false : true
+end
+
+  def list_user_phone(user_name)
+    if @directory.key?(user_name)
+      (@directory[user_name]).to_s
+    else
+      "No existe\n"
+    end
+  end
+
+  def call_from_dir
+    p 'Ingrese un nombre para buscar:'
+    user = gets.chomp
+    ans = list_user_phone(user, @directory).chop
+
+    if ans != 'No existe'
+      call(user, ans)
+    else
+      p 'No se encontro el contacto en el directorio.'
+    end
+  end
+
+  def call(contact, phone)
+    if !@calling
+      @call_end = 0
+      @call_ini = 0
+      @calling = true
+      @contact = contact
+      @phone = phone
+      @call_ini = Time.now.to_f
+      p 'Llamada iniciada.'
+    else
+      p 'El teléfono está ocupado.'
+    end
+  end
+
+  def show_call_info
+    @calling ? "Llamada con #{@contact} Tel: #{@phone} en curso..." : 'No hay llamadas en curso.'
+  end
+
+  def end_call
+    if @calling
+      @calling = false
+      @call_end = Time.now.to_f
+      @call_dur = (@call_end - @call_ini)
+      @@total_time += @call_dur
+      @current_call = { contact: @contact, phone: @phone, call_dur: @call_dur }
+      @call_log.push(@current_call)
+      p 'Llamada finalizada.'
+    else
+      p 'El teléfono no está en uso.'
+    end
+  end
+
+  def call_history
+    p @call_log
+  end
+end
 
 # l1=Telefono.new
 # l1.import_directory('../clase_4/directorio.csv')
@@ -187,75 +192,63 @@ end
 # Telefono.get_devices
 # Telefono.get_all_times
 
-
 class Fax < Telefono
+  attr_accessor :calling, :contact, :phone, :available
 
-    attr_accessor :calling, :contact, :phone, :available
-    
-    def initialize(available)
-        @available=available
-        super()
-    end
+  def initialize(available)
+    @available = available
+    super()
+  end
 
-    def call(contact, phone, call_time_user)
-        
-        #binding.pry
-        if !@available[:available].include?(call_time_user)
-            ans_machine()
-        end
+  def call(contact, phone, call_time_user)
+    # binding.pry
+    ans_machine unless @available[:available].include?(call_time_user)
 
-        super(contact, phone)
-        
-    end
+    super(contact, phone)
+  end
 
-    def ans_machine
-        p "#{@available[:custom_message]}"
-        exit
-    end
+  def ans_machine
+    p (@available[:custom_message]).to_s
+    exit
+  end
 
-    def doc_send(file_read)
-        
-        file_as_array=File.read(file_read)
+  def doc_send(file_read)
+    file_as_array = File.read(file_read)
 
-        File.write('fax_enviado.txt', file_as_array)
-                
-    end
-
+    File.write('fax_enviado.txt', file_as_array)
+  end
 end
 
 class CellPhone < Telefono
+  include Gadgets
 
-    include Gadgets
+  attr_accessor :calling, :contact, :phone, :calculator, :thermometer, :notepad
 
-    attr_accessor :calling, :contact, :phone, :calculator, :thermometer, :notepad
-    
-    def initialize(battery_last)
-        @end_time=Time.now.to_f+(battery_last*60*60)
-        @battery_last=battery_last*60*60
-        @calculator=Calculator.new
-        @thermometer=Thermometer.new
-        @notepad=NotePad.new
-        super()
+  def initialize(battery_last)
+    @end_time = Time.now.to_f + (battery_last * 60 * 60)
+    @battery_last = battery_last * 60 * 60
+    @calculator = Calculator.new
+    @thermometer = Thermometer.new
+    @notepad = NotePad.new
+    super()
+  end
+
+  private
+
+  def battery_consum
+    if @end_time - Time.now.to_f > 0
+      p "Queda #{((@end_time - Time.now.to_f) / @battery_last).round(2) * 100} % de bateria."
+    else
+      p 'La batería está agotada.'
     end
+  end
 
-    private
+  public
 
-    def battery_consum
-        if @end_time-Time.now.to_f>0
-            p "Queda #{((@end_time-Time.now.to_f)/@battery_last).round(2)*100} % de bateria."
-        else
-            p "La batería está agotada."
-        end
-    end
-
-    public
-
-    def charge_level
-        battery_consum()
-    end
-
+  def charge_level
+    battery_consum
+  end
 end
-
 
 # l1=Fax.new({ available: Array(8..17), custom_message: "En este momento no es posible atenderlo."})
 # l1.call("Andres",29291,10)
@@ -265,24 +258,24 @@ end
 # l1.call_history
 # l1.doc_send('archivo_fax.txt')
 
-p "--------------------------------------------------"
+# p '--------------------------------------------------'
 
-cel1=CellPhone.new(0.009)
-cel1.charge_level()
-sleep(2)
-cel1.charge_level()
-sleep(3)
-cel1.charge_level()
+# cel1 = CellPhone.new(0.009)
+# cel1.charge_level
+# sleep(2)
+# cel1.charge_level
+# sleep(3)
+# cel1.charge_level
 
-p "------------PRUEBA DEL MODULO GADGETS-------------"
+# p '------------PRUEBA DEL MODULO GADGETS-------------'
 
-p cel1.calculator.sum_ab(1,2)
-p cel1.calculator.sum_ab(3,2)
+# p cel1.calculator.sum_ab(1, 2)
+# p cel1.calculator.sum_ab(3, 2)
 
-cel1.thermometer.get_temperature(8)
-cel1.thermometer.get_temperature(12)
+# cel1.thermometer.get_temperature(8)
+# cel1.thermometer.get_temperature(12)
 
-cel1.notepad.new_note
-cel1.notepad.new_note
-cel1.notepad.delete_note
-cel1.notepad.get_note
+# cel1.notepad.new_note
+# cel1.notepad.new_note
+# cel1.notepad.delete_note
+# cel1.notepad.get_note
