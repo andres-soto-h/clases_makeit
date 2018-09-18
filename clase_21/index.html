@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>JS DOM</title>
+    <script>
+        js_style = function () {
+            document.getElementById("text").className = "myStyle"
+        }
+    </script>
+    <style>
+        .myStyle {
+            color: rgb(255, 255, 255);
+            background-color: brown;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="text">Hola mundo</p>
+
+    <div>
+        <button id="jssstyle" onclick="js_style()">Style</button>
+    </div>
+</body>
+
+</html>

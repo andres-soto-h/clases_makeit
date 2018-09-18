@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Volumen</title>
+    <script>
+        calculate_volume = function (){
+            
+            event.preventDefault()
+            var radio =document.getElementsByName("radio")[0].value
+            vol=(4/3)*Math.PI*Math.pow(radio,3)
+            document.getElementById("result").textContent=vol
+            
+        }
+    </script>
+
+</head>
+
+<body>
+
+
+    <h2>Volumen Esferas</h2>
+
+    <form>
+        Radio:<br>
+        <input type="number" name="radio" value="0">
+        <br>
+        <input type="submit" id="bt-submit" value="Submit" onclick="calculate_volume()">
+    </form>
+    <p>El volumen de la esfera es:</p>
+    <p id="result"></p>
+
+</body>
+
+</html>

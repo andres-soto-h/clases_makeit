@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Hola Sinatra</title>
 </head>
+
 <body>
-    <%puts "This is process #{Process.pid}"%>
-    <% 10.times do %>
-    <h1>Mi primera aplicación Web con Sinatra!</h1>
-  <% end %>
+
+  <form action="/" method="POST">
+    <h1>Mi cuenta es:
+      <%= @num %>
+    </h1>
+    <input type="hidden" name="number" value=<%=@num %>>
+    <input type="submit" value="Submit">
+  </form>
+
 </body>
+
 </html>
