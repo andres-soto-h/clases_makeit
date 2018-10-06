@@ -1,5 +1,5 @@
 class Api::V1::ProductsController < ApplicationController
-  # protect_from_forgery with: :null_session
+  protect_from_forgery with: :null_session
   before_action :basic_auth
 
   def index
@@ -32,12 +32,17 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   private
+  # def basic_auth
+  #   authenticate_or_request_with_http_basic do |user, password|
+  #     # Verificar user y password. Por ejemplo (aunque no lo recomendamos):
+  #     user == "andres" && password == "5890808"
+  #   end
+  # end
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, token|
-      user = User.find_by_email('example@g.com')
-      puts user
-      if user.auth_token == 'zTwFXiWUFLY97NyjULkwHppu'
+      user = User.find_by_email(username)
+      if user.auth_token == token
         sign_in user
       end
     end
