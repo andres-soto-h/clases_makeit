@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Especificaciones de Autos</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1 { margin-bottom: 60px; }
+
+h3 { 
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+}
+
+.car { margin-bottom: 20px; }
+
+.specs {
+  margin-top: 50px;
+}
+
+.specs .spec-value {
+  color: #666;
+  font-size: 24px;
+}
+
+.specs .spec-label {
+  display: block;
+  color: #999;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Especificaciones de Autos</h1>
+            </div>
+        </div>
+
+        <div class="text-center"><button class="btn btn-primary btn-lg" id="load-cars">Mostrar Autos</button></div>
+        <div class="cars">
+
+        </div>
+
+    </div>
+
+    <script id="cars-template" type="text/x-handlebars-template">
+
+  {{#each car_list}}
+  
+  <div class="row car">
+    <div class="col-sm-5 col-md-4"><img src="{{this.imageUrl}}" class="img-responsive img-thumbnail"></div>
+    <div class="col-sm-7 col-md-8">
+      <h3>{{this.name}} <small>{{this.released}}</small></h3>
+      <div class="row specs">
+        <div class="col-xs-3 text-center">
+          <span class="spec-value">{{this.power}} hp</span>
+          <span class="spec-label">Potencia</span>
+        </div>
+        <div class="col-xs-3 text-center">
+          <span class="spec-value">{{this.weight}} kg</span>
+          <span class="spec-label">Peso</span>
+        </div>
+        <div class="col-xs-3 text-center">
+          <span class="spec-value">{{#if this.turbo}}Si{{else}}No{{/if}}</span>
+          <span class="spec-label">Turbo</span>
+        </div>
+        <div class="col-xs-3 text-center">
+          <span class="spec-value">{{this.speed}} km/h</span>
+          <span class="spec-label">Velocidad Max</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{/each}}
+
+
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+
+        var template = Handlebars.compile($('#cars-template').html());
+
+        var showCars = function () {
+
+            $.ajax({
+                method: "GET",
+                url: "https://s3.amazonaws.com/makeitreal/cars.json"
+            }).done(function (data) {
+                $('.cars').append(template({ car_list: data }));
+            });
+        }
+
+        $('#load-cars').on('click', function (e) {
+            showCars();
+            $('#load-cars').remove()
+        });
+
+    </script>
+
+</body>
+
+</html>

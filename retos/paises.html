@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show Countries</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        .wrapper {
+            width: 400px;
+            margin: 20px auto 0;
+            text-align: center;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 15px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table th,
+        table td {
+            padding: 7px 5px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <button>Mostrar paises</button>
+    </div>
+
+    <script id="countries-template" type="text/x-handlebars-template">
+              <table>
+                <tr>
+                  <th>Flag</th>
+                  <th>Code</th>
+                  <th>Name</th>
+                </tr>
+                {{#each countries}}
+                <tr>
+                  <td><img src="{{this.flag_url}}" alt="{{this.name}}"></td>
+                  <td>{{this.code}}</td>
+                  <td>{{this.name}}</td>
+                </tr>
+                {{/each}}
+              </table>
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+
+
+    <script>
+        
+            var template = Handlebars.compile($('#countries-template').html());
+    
+            var showCountries = function () {
+    
+                $.ajax({
+                    method: "GET",
+                    url: "https://s3.amazonaws.com/makeitreal/countries.json"
+                }).done(function (data) {
+                    $('button').replaceWith(template({ countries: data }));
+                }); 
+            }
+    
+            $('button').on('click', function (e) {
+                showCountries();
+            });
+    
+        </script>
+
+
+</body>
+
+</html>
